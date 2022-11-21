@@ -11,7 +11,7 @@ variable "container_cpu" {
 
 variable "container_memory" {
   description = "Container memory"
-  default     = "1G"
+  default     = "2G"
 }
 
 variable "project_id" {
@@ -36,6 +36,17 @@ variable "repository" {
   type        = string
   description = "The name of the Artifact Registry repository to be created"
   default     = "mage-data-prep"
+}
+
+variable "database_user" {
+  type        = string
+  description = "The username of the Postgres database."
+}
+
+variable "database_password" {
+  type        = string
+  description = "The password of the Postgres database."
+  sensitive   = true
 }
 
 variable "docker_image" {

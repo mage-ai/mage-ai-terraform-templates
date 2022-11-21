@@ -140,7 +140,8 @@ resource "google_cloud_run_service" "run_service" {
     metadata {
       annotations = {
         "autoscaling.knative.dev/minScale"         = "1"
-        "run.googleapis.com/cloudsql-instances"=google_sql_database_instance.instance.connection_name
+        "run.googleapis.com/cloudsql-instances"    = google_sql_database_instance.instance.connection_name
+        "run.googleapis.com/cpu-throttling"        = false
         "run.googleapis.com/execution-environment" = "gen2"
         "run.googleapis.com/vpc-access-connector"  = google_vpc_access_connector.connector.id
         "run.googleapis.com/vpc-access-egress"     = "private-ranges-only"

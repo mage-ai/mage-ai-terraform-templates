@@ -7,6 +7,10 @@ resource "google_sql_database_instance" "instance" {
     deletion_protection = false
     settings {
         tier            = "db-f1-micro"
+        database_flags {
+            name  = "max_connections"
+            value = "50"
+        }
     }
 }
 

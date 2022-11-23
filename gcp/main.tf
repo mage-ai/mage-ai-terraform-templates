@@ -178,3 +178,76 @@ resource "google_cloud_run_service_iam_member" "run_all_users" {
 output "service_ip" {
   value = google_compute_global_address.ip.address
 }
+
+
+# Create the Cloud Run DBT Docs service and corresponding resources, uncomment if needed
+# resource "google_cloud_run_service" "dbt_docs_service" {
+#   name = "${var.app_name}-docs1"
+#   location = var.region
+
+#   template {
+#     spec {
+#       containers {
+#         image = var.docker_image
+#         ports {
+#           container_port = 7789
+#         }
+#         resources {
+#           limits = {
+#             cpu     = var.container_cpu
+#             memory  = var.container_memory
+#           }
+#         }
+#         env {
+#           name  = "FILESTORE_IP_ADDRESS"
+#           value = google_filestore_instance.instance.networks[0].ip_addresses[0]
+#         }
+#         env {
+#           name  = "FILE_SHARE_NAME"
+#           value = "share1"
+#         }
+#         env {
+#           name  = "DBT_DOCS_INSTANCE"
+#           value = "1"
+#         }
+#       }
+#     }
+
+#     metadata {
+#       annotations = {
+#         "autoscaling.knative.dev/minScale"         = "1"
+#         "run.googleapis.com/execution-environment" = "gen2"
+#         "run.googleapis.com/vpc-access-connector"  = google_vpc_access_connector.connector.id
+#         "run.googleapis.com/vpc-access-egress"     = "private-ranges-only"
+#       }
+#     }
+#   }
+
+#   traffic {
+#     percent         = 100
+#     latest_revision = true
+#   }
+
+#   metadata {
+#     annotations = {
+#       "run.googleapis.com/launch-stage" = "BETA"
+#       "run.googleapis.com/ingress"      = "internal-and-cloud-load-balancing"
+#     }
+#   }
+
+#   autogenerate_revision_name = true
+
+#   # Waits for the Cloud Run API to be enabled
+#   depends_on = [google_project_service.cloudrun]
+# }
+
+# resource "google_cloud_run_service_iam_member" "run_all_users_docs" {
+#   service  = google_cloud_run_service.dbt_docs_service.name
+#   location = google_cloud_run_service.dbt_docs_service.location
+#   role     = "roles/run.invoker"
+#   member   = "allUsers"
+# }
+
+# output "docs_service_ip" {
+#   value = google_compute_global_address.docs_ip.address
+# }

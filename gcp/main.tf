@@ -180,10 +180,11 @@ output "service_ip" {
   value = google_compute_global_address.ip.address
 }
 
-
+# ----------------------------------------------------------------------------------------
 # Create the Cloud Run DBT Docs service and corresponding resources, uncomment if needed
+
 # resource "google_cloud_run_service" "dbt_docs_service" {
-#   name = "${var.app_name}-docs1"
+#   name = "${var.app_name}-docs"
 #   location = var.region
 
 #   template {

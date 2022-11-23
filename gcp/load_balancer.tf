@@ -77,7 +77,9 @@ resource "google_compute_global_forwarding_rule" "frontend" {
   ip_address = google_compute_global_address.ip.address
 }
 
+# -----------------------------------------------------------------------------
 # Create load balancer resources for DBT docs server, uncomment if needed
+
 # resource "google_compute_global_address" "docs_ip" {
 #   name = "${var.app_name}-service-docs-ip"
 # }

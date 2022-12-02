@@ -44,7 +44,7 @@ data "template_file" "env_vars" {
     aws_secret_access_key = var.AWS_SECRET_ACCESS_KEY
     lambda_func_arn = "${aws_lambda_function.terraform_lambda_func.arn}"
     lambda_func_name = "${aws_lambda_function.terraform_lambda_func.function_name}"
-    database_connection_url = var.DATABASE_CONNECTION_URL
+    database_connection_url = "postgresql+psycopg2://${var.database_user}:${var.database_password}@${aws_db_instance.rds.address}:5432/mage"
   }
 }
 

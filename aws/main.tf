@@ -81,7 +81,14 @@ resource "aws_ecs_task_definition" "aws-ecs-task" {
       ],
       "cpu": ${var.ecs_task_cpu},
       "memory": ${var.ecs_task_cpu},
-      "networkMode": "awsvpc"
+      "networkMode": "awsvpc",
+      "ulimits": [
+        {
+          "name": "stack",
+          "softLimit": 8192,
+          "hardLimit": 16384
+        }
+      ]
     }
   ]
   DEFINITION

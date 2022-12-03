@@ -54,3 +54,14 @@ variable "docker_image" {
   description = "The Docker image url in the Artifact Registry repository to be deployed to Cloud Run"
   default     = "region-docker.pkg.dev/project_id/repository_name/mageai"
 }
+
+variable "domain" {
+  description = "Domain name to run the load balancer on. Used if `ssl` is `true`."
+  type        = string
+}
+
+variable "ssl" {
+  description = "Run load balancer on HTTPS and provision managed certificate with provided `domain`."
+  type        = bool
+  default     = true
+}

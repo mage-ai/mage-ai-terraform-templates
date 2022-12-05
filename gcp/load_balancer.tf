@@ -19,6 +19,19 @@ resource "google_compute_security_policy" "policy" {
     description = "Whitelist IP"
   }
 
+  # Uncomment the example rule below to whitelist IPs for specific endpoints.
+  # rule {
+  #   action   = "allow"
+  #   priority = "200"
+  #   match {
+  #     expr {
+  #       # https://cloud.google.com/armor/docs/rules-language-reference
+  #       expression = "request.path.startsWith('/api/pipeline_schedules/100/pipeline_runs') && inIpRange(origin.ip, '1.1.1.1/32')"
+  #     }
+  #   }
+  #   description = "Whitelist IP for specific endpoints"
+  # }
+
   rule {
     action   = "deny(403)"
     priority = "2147483647"

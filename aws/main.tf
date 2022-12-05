@@ -84,7 +84,7 @@ resource "aws_ecs_task_definition" "aws-ecs-task" {
       "networkMode": "awsvpc",
       "ulimits": [
         {
-          "name": "stack",
+          "name": "nofile",
           "softLimit": 8192,
           "hardLimit": 16384
         }

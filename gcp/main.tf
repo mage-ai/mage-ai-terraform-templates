@@ -176,9 +176,9 @@ resource "google_cloud_run_service_iam_member" "run_all_users" {
 }
 
 # Display the service IP
-# output "service_ip" {
-#   value = google_compute_global_address.ip.address
-# }
+output "service_ip" {
+  value = module.lb-http.external_ip
+}
 
 # ----------------------------------------------------------------------------------------
 # Create the Cloud Run DBT Docs service and corresponding resources, uncomment if needed

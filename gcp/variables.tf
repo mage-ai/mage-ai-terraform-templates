@@ -58,10 +58,11 @@ variable "docker_image" {
 variable "domain" {
   description = "Domain name to run the load balancer on. Used if `ssl` is `true`."
   type        = string
+  default     = ""
 }
 
 variable "ssl" {
   description = "Run load balancer on HTTPS and provision managed certificate with provided `domain`."
   type        = bool
-  default     = true
+  default     = false
 }

@@ -32,10 +32,6 @@ resource "google_compute_security_policy" "policy" {
   }
 }
 
-resource "google_compute_global_address" "ip" {
-  name = "${var.app_name}-service-ip"
-}
-
 resource "google_compute_region_network_endpoint_group" "cloudrun_neg" {
   name                  = "${var.app_name}-neg"
   network_endpoint_type = "SERVERLESS"
@@ -45,36 +41,41 @@ resource "google_compute_region_network_endpoint_group" "cloudrun_neg" {
   }
 }
 
-resource "google_compute_backend_service" "backend" {
-  name      = "${var.app_name}-backend"
+module "lb-http" {
+  source  = "GoogleCloudPlatform/lb-http/google//modules/serverless_negs"
+  version = "~> 6.3"
+  name    = "${var.app_name}-urlmap"
+  project = var.project_id
 
-  protocol  = "HTTP"
-  port_name = "http"
-  timeout_sec = 30
+  ssl                             = var.ssl
+  managed_ssl_certificate_domains = [var.domain]
+  https_redirect                  = var.ssl
+  labels                          = { "example-label" = "cloud-run-example" }
 
-  backend {
-    group = google_compute_region_network_endpoint_group.cloudrun_neg.id
+  backends = {
+    default = {
+      description = null
+      groups = [
+        {
+          group = google_compute_region_network_endpoint_group.cloudrun_neg.id
+        }
+      ]
+      enable_cdn              = false
+      security_policy         = google_compute_security_policy.policy.name
+      custom_request_headers  = null
+      custom_response_headers = null
+
+      iap_config = {
+        enable               = false
+        oauth2_client_id     = ""
+        oauth2_client_secret = ""
+      }
+      log_config = {
+        enable      = false
+        sample_rate = null
+      }
+    }
   }
-
-  security_policy = google_compute_security_policy.policy.name
-}
-
-resource "google_compute_url_map" "url_map" {
-  name            = "${var.app_name}-urlmap"
-
-  default_service = google_compute_backend_service.backend.id
-}
-
-resource "google_compute_target_http_proxy" "http_proxy" {
-  name    = "${var.app_name}-http-proxy"
-  url_map = google_compute_url_map.url_map.id
-}
-
-resource "google_compute_global_forwarding_rule" "frontend" {
-  name       = "${var.app_name}-frontend"
-  target     = google_compute_target_http_proxy.http_proxy.id
-  port_range = "80"
-  ip_address = google_compute_global_address.ip.address
 }
 
 # -----------------------------------------------------------------------------

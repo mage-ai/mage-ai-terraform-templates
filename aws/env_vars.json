@@ -22,5 +22,9 @@
     {
         "name": "MAGE_DATABASE_CONNECTION_URL",
         "value": "${database_connection_url}"
+    },
+    {
+        "name": "MAGE_EC2_SUBNET_ID",
+        "value": "${ec2_subnet_id}"
     }
 ]

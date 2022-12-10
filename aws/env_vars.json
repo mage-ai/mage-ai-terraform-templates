@@ -12,6 +12,10 @@
         "value": "${aws_secret_access_key}"
     },
     {
+        "name": "AWS_REGION_NAME",
+        "value": "${aws_region_name}"
+    },
+    {
         "name": "LAMBDA_FUNCTION_ARN",
         "value": "${lambda_func_arn}"
     },

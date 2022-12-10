@@ -49,6 +49,7 @@ data "template_file" "env_vars" {
     ecs_task_definition   = "${var.app_name}-dev-task"
     ecs_container_name    = "${var.app_name}-${var.app_environment}-container"
     database_connection_url = var.DATABASE_CONNECTION_URL
+    ec2_subnet_id           = aws_subnet.public[0].id
   }
 }
 
@@ -86,7 +87,14 @@ resource "aws_ecs_task_definition" "manager-task" {
       ],
       "cpu": ${var.ecs_task_cpu},
       "memory": ${var.ecs_task_cpu},
-      "networkMode": "awsvpc"
+      "networkMode": "awsvpc",
+      "ulimits": [
+        {
+          "name": "nofile",
+          "softLimit": 8192,
+          "hardLimit": 16384
+        }
+      ]
     }
   ]
   DEFINITION
@@ -148,7 +156,14 @@ resource "aws_ecs_task_definition" "dev-task" {
       ],
       "cpu": ${var.ecs_task_cpu},
       "memory": ${var.ecs_task_cpu},
-      "networkMode": "awsvpc"
+      "networkMode": "awsvpc",
+      "ulimits": [
+        {
+          "name": "nofile",
+          "softLimit": 8192,
+          "hardLimit": 16384
+        }
+      ]
     }
   ]
   DEFINITION

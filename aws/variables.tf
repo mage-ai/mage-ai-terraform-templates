@@ -47,16 +47,16 @@ variable "cidr" {
   default     = "10.32.0.0/16"
 }
 
-variable "database_user" {
-  type        = string
-  description = "The username of the Postgres database."
-}
+# variable "database_user" {
+#   type        = string
+#   description = "The username of the Postgres database."
+# }
 
-variable "database_password" {
-  type        = string
-  description = "The password of the Postgres database."
-  sensitive   = true
-}
+# variable "database_password" {
+#   type        = string
+#   description = "The password of the Postgres database."
+#   sensitive   = true
+# }
 
 variable "docker_image" {
   description = "Docker image url used in ECS task."

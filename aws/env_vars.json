@@ -16,14 +16,6 @@
         "value": "${aws_region_name}"
     },
     {
-        "name": "LAMBDA_FUNCTION_ARN",
-        "value": "${lambda_func_arn}"
-    },
-    {
-        "name": "LAMBDA_FUNCTION_NAME",
-        "value": "${lambda_func_name}"
-    },
-    {
         "name": "MAGE_DATABASE_CONNECTION_URL",
         "value": "${database_connection_url}"
     },

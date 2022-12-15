@@ -118,10 +118,6 @@ resource "google_cloud_run_service" "run_service" {
           value = var.region
         }
         env {
-          name  = "GCP_DOCKER_IMAGE_URL"
-          value = var.docker_image
-        }
-        env {
           name  = "GCP_SERVICE_NAME"
           value = var.app_name
         }

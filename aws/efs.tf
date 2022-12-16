@@ -26,8 +26,7 @@ resource "aws_security_group" "mount_target_security_group" {
     from_port        = 2049
     to_port          = 2049
     protocol         = "tcp"
-    cidr_blocks      = ["0.0.0.0/0"]
-    ipv6_cidr_blocks = ["::/0"]
+    security_groups  = [aws_security_group.service_security_group.id]
   }
 
   tags = {

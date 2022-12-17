@@ -22,3 +22,8 @@ output "cluster_name" {
   description = "Kubernetes Cluster Name"
   value       = local.cluster_name
 }
+
+output "efs_id" {
+  description = "Elastic File System ID"
+  value       = aws_efs_file_system.file_system.id
+}

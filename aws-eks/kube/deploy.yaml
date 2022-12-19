@@ -18,3 +18,10 @@ spec:
           image: mageai/mageai:latest
           ports:
             - containerPort: 6789
+          volumeMounts:
+          - name: efs
+            mountPath: "/home/src"
+      volumes:
+        - name: efs
+          persistentVolumeClaim:
+            claimName: efs-storage-claim

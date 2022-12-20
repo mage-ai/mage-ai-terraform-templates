@@ -117,6 +117,18 @@ resource "google_cloud_run_service" "run_service" {
           value = "share1"
         }
         env {
+          name  = "GCP_PROJECT_ID"
+          value = var.project_id
+        }
+        env {
+          name  = "GCP_REGION"
+          value = var.region
+        }
+        env {
+          name  = "GCP_SERVICE_NAME"
+          value = var.app_name
+        }
+        env {
           name  = "MAGE_DATABASE_CONNECTION_URL"
           value = "postgresql://${var.database_user}:${var.database_password}@/${var.app_name}-db?host=/cloudsql/${google_sql_database_instance.instance.connection_name}"
         }

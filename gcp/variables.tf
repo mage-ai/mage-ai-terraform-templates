@@ -41,6 +41,7 @@ variable "repository" {
 variable "database_user" {
   type        = string
   description = "The username of the Postgres database."
+  default     = "mageuser"
 }
 
 variable "database_password" {

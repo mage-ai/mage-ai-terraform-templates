@@ -82,7 +82,7 @@ resource "aws_ecs_task_definition" "aws-ecs-task" {
         }
       ],
       "cpu": ${var.ecs_task_cpu},
-      "memory": ${var.ecs_task_cpu},
+      "memory": ${var.ecs_task_memory},
       "networkMode": "awsvpc",
       "ulimits": [
         {

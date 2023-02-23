@@ -34,7 +34,8 @@ resource "azurerm_container_group" "container_group" {
   resource_group_name = azurerm_resource_group.resource_group.name
   ip_address_type     = "Private"
   os_type             = "Linux"
-  network_profile_id  = azurerm_network_profile.containergroup_profile.id
+  # network_profile_id  = azurerm_network_profile.containergroup_profile.id
+  subnet_ids          = [azurerm_subnet.sn-aci.id]
 
   container {
     name      = "${var.app_name}-${var.app_environment}-container"

@@ -2,7 +2,7 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 4.16"
+      version = "~> 4.50"
     }
   }
 
@@ -86,7 +86,7 @@ resource "aws_ecs_task_definition" "manager-task" {
         }
       ],
       "cpu": ${var.ecs_task_cpu},
-      "memory": ${var.ecs_task_cpu},
+      "memory": ${var.ecs_task_memory},
       "networkMode": "awsvpc",
       "ulimits": [
         {
@@ -155,7 +155,7 @@ resource "aws_ecs_task_definition" "dev-task" {
         }
       ],
       "cpu": ${var.ecs_task_cpu},
-      "memory": ${var.ecs_task_cpu},
+      "memory": ${var.ecs_task_memory},
       "networkMode": "awsvpc",
       "ulimits": [
         {

@@ -1,9 +1,9 @@
 data "template_file" "buildspec" {
-    template = "${file("${path.module}/buildspec.yml")}"
-    vars = {
-        container_name = var.ecs_container_name
-        image_uri = "${var.aws_account_id}.dkr.ecr.${var.aws_region}.amazonaws.com/${var.ecr_repo_name}:${var.ecr_image_tag}"
-    }
+  template = file("${path.module}/buildspec.yml")
+  vars = {
+    container_name = var.ecs_container_name
+    image_uri      = "${var.aws_account_id}.dkr.ecr.${var.aws_region}.amazonaws.com/${var.ecr_repo_name}:${var.ecr_image_tag}"
+  }
 }
 
 resource "aws_codebuild_project" "codebuild" {
@@ -21,7 +21,7 @@ resource "aws_codebuild_project" "codebuild" {
     image                       = "aws/codebuild/standard:4.0"
     type                        = "LINUX_CONTAINER"
     image_pull_credentials_type = "CODEBUILD"
-    privileged_mode = true
+    privileged_mode             = true
 
     environment_variable {
       name  = "AWS_DEFAULT_REGION"
@@ -37,7 +37,7 @@ resource "aws_codebuild_project" "codebuild" {
       name  = "IMAGE_TAG"
       value = var.ecr_image_tag
     }
-    
+
     environment_variable {
       name  = "IMAGE_REPO_NAME"
       value = var.ecr_repo_name
@@ -59,7 +59,7 @@ resource "aws_codebuild_project" "codebuild" {
   }
 
   source {
-    type            = "CODEPIPELINE"
+    type = "CODEPIPELINE"
   }
 
   source_version = "main"
@@ -80,7 +80,7 @@ resource "aws_codebuild_project" "ecr-codebuild" {
     image                       = "aws/codebuild/standard:4.0"
     type                        = "LINUX_CONTAINER"
     image_pull_credentials_type = "CODEBUILD"
-    privileged_mode = true
+    privileged_mode             = true
   }
 
   logs_config {
@@ -88,7 +88,7 @@ resource "aws_codebuild_project" "ecr-codebuild" {
   }
 
   source {
-    type            = "CODEPIPELINE"
+    type      = "CODEPIPELINE"
     buildspec = data.template_file.buildspec.rendered
   }
 

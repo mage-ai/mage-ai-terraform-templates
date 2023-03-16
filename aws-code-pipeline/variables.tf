@@ -1,10 +1,10 @@
 variable "AWS_ACCESS_KEY_ID" {
-  type = string
+  type    = string
   default = "AWS_ACCESS_KEY_ID"
 }
 
 variable "AWS_SECRET_ACCESS_KEY" {
-  type = string
+  type    = string
   default = "AWS_SECRET_ACCESS_KEY"
 }
 
@@ -21,15 +21,15 @@ variable "aws_account_id" {
 }
 
 variable "s3_bucket_name" {
-  type = string
+  type        = string
   description = "S3 bucket to store pipeline artifacts"
-  default = "s3-bucket-name"
+  default     = "s3-bucket-name"
 }
 
 variable "code_pipeline_name" {
-    type = string
-    description = "Name for AWS CodePipeline"
-    default = "mage-codepipeline"
+  type        = string
+  description = "Name for AWS CodePipeline"
+  default     = "mage-codepipeline"
 }
 
 variable "ecr_repo_name" {

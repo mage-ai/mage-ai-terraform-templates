@@ -25,8 +25,8 @@ data "aws_iam_policy_document" "codepipeline_policy" {
   }
 
   statement {
-    effect   = "Allow"
-    actions  = [
+    effect = "Allow"
+    actions = [
       "codecommit:CancelUploadArchive",
       "codecommit:GetBranch",
       "codecommit:GetCommit",
@@ -38,8 +38,8 @@ data "aws_iam_policy_document" "codepipeline_policy" {
   }
 
   statement {
-    effect   = "Allow"
-    actions  = [
+    effect = "Allow"
+    actions = [
       "codedeploy:CreateDeployment",
       "codedeploy:GetApplication",
       "codedeploy:GetApplicationRevision",
@@ -112,7 +112,7 @@ data "aws_iam_policy_document" "assume_role" {
     effect = "Allow"
 
     principals {
-      type        = "Service"
+      type = "Service"
       identifiers = [
         "codepipeline.amazonaws.com",
         "codebuild.amazonaws.com",

@@ -10,7 +10,7 @@ terraform {
 }
 
 provider "aws" {
-  region  = "us-west-2"
+  region = "us-west-2"
 }
 
 resource "aws_s3_bucket" "codepipeline_bucket" {
@@ -38,8 +38,8 @@ resource "aws_codepipeline" "codepipeline" {
       output_artifacts = ["source_output"]
 
       configuration = {
-        RepositoryName = var.codecommit_repo_name
-        BranchName = var.codecommit_branch
+        RepositoryName       = var.codecommit_repo_name
+        BranchName           = var.codecommit_branch
         PollForSourceChanges = "true"
       }
     }
@@ -49,12 +49,12 @@ resource "aws_codepipeline" "codepipeline" {
     name = "Build"
 
     action {
-      name             = "Build"
-      category         = "Build"
-      owner            = "AWS"
-      provider         = "CodeBuild"
-      input_artifacts  = ["source_output"]
-      version          = "1"
+      name            = "Build"
+      category        = "Build"
+      owner           = "AWS"
+      provider        = "CodeBuild"
+      input_artifacts = ["source_output"]
+      version         = "1"
 
       configuration = {
         ProjectName = aws_codebuild_project.codebuild.name
@@ -85,7 +85,7 @@ resource "aws_codepipeline" "ecr-codepipeline" {
 
       configuration = {
         RepositoryName = var.ecr_repo_name
-        ImageTag = var.ecr_image_tag
+        ImageTag       = var.ecr_image_tag
       }
     }
   }

@@ -3,7 +3,7 @@ version: 0.2
 phases:
   build:
     commands:
-       - printf '[{"name":"${container_name}","imageUri":"${image_uri}"}]' > imagedefinitions.json
+      - printf '[{"name":"${container_name}","imageUri":"${image_uri}"}]' > imagedefinitions.json
 artifacts:
   files:
-    - '**/*'
+    - imagedefinitions.json

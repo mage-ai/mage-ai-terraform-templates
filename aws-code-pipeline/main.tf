@@ -112,7 +112,7 @@ resource "aws_codepipeline" "ecr-codepipeline" {
     name = "Deploy"
 
     action {
-      name            = "Deploy"
+      name            = "ECR_Deploy"
       category        = "Deploy"
       owner           = "AWS"
       provider        = "ECS"

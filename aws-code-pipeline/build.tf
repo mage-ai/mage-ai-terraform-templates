@@ -1,8 +1,8 @@
 data "template_file" "buildspec" {
     template = "${file("${path.module}/buildspec.yml")}"
     vars = {
-        container_name = "eng-test-production-container"
-        image_uri = "679849156117.dkr.ecr.us-west-2.amazonaws.com/codepipeline-test:latest"
+        container_name = var.ecs_container_name
+        image_uri = "${var.aws_account_id}.dkr.ecr.${var.aws_region}.amazonaws.com/${var.ecr_repo_name}:${var.ecr_image_tag}"
     }
 }
 
@@ -13,7 +13,7 @@ resource "aws_codebuild_project" "codebuild" {
   service_role  = aws_iam_role.codebuild_role.arn
 
   artifacts {
-    type = "NO_ARTIFACTS"
+    type = "CODEPIPELINE"
   }
 
   environment {

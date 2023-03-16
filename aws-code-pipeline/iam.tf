@@ -1,4 +1,17 @@
+# Adjust AWS permissions as necessary
 data "aws_iam_policy_document" "codepipeline_policy" {
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "iam:PassRole"
+    ]
+
+    resources = [
+      "arn:aws:iam::${var.aws_account_id}:role/${var.ecs_task_role_name}"
+    ]
+  }
+
   statement {
     effect = "Allow"
 
@@ -14,12 +27,12 @@ data "aws_iam_policy_document" "codepipeline_policy" {
   statement {
     effect   = "Allow"
     actions  = [
-        "codecommit:CancelUploadArchive",
-        "codecommit:GetBranch",
-        "codecommit:GetCommit",
-        "codecommit:GetRepository",
-        "codecommit:GetUploadArchiveStatus",
-        "codecommit:UploadArchive"
+      "codecommit:CancelUploadArchive",
+      "codecommit:GetBranch",
+      "codecommit:GetCommit",
+      "codecommit:GetRepository",
+      "codecommit:GetUploadArchiveStatus",
+      "codecommit:UploadArchive"
     ]
     resources = ["*"]
   }
@@ -27,12 +40,12 @@ data "aws_iam_policy_document" "codepipeline_policy" {
   statement {
     effect   = "Allow"
     actions  = [
-        "codedeploy:CreateDeployment",
-        "codedeploy:GetApplication",
-        "codedeploy:GetApplicationRevision",
-        "codedeploy:GetDeployment",
-        "codedeploy:GetDeploymentConfig",
-        "codedeploy:RegisterApplicationRevision"
+      "codedeploy:CreateDeployment",
+      "codedeploy:GetApplication",
+      "codedeploy:GetApplicationRevision",
+      "codedeploy:GetDeployment",
+      "codedeploy:GetDeploymentConfig",
+      "codedeploy:RegisterApplicationRevision"
     ]
     resources = ["*"]
   }
@@ -41,35 +54,15 @@ data "aws_iam_policy_document" "codepipeline_policy" {
     effect = "Allow"
 
     actions = [
-        "codebuild:BatchGetBuilds",
-        "codebuild:StartBuild",
-        "codebuild:BatchGetBuildBatches",
-        "codebuild:StartBuildBatch",
-        "codebuild:CreateReportGroup",
-        "codebuild:CreateReport",
-        "codebuild:UpdateReport",
-        "codebuild:BatchPutTestCases",
-        "codebuild:BatchPutCodeCoverages"
-    ]
-
-    resources = ["*"]
-  }
-
-  statement {
-    effect = "Allow"
-
-    actions = [
-        "elasticbeanstalk:*",
-        "ec2:*",
-        "elasticloadbalancing:*",
-        "autoscaling:*",
-        "cloudwatch:*",
-        "s3:*",
-        "sns:*",
-        "cloudformation:*",
-        "rds:*",
-        "sqs:*",
-        "ecs:*"
+      "codebuild:BatchGetBuilds",
+      "codebuild:StartBuild",
+      "codebuild:BatchGetBuildBatches",
+      "codebuild:StartBuildBatch",
+      "codebuild:CreateReportGroup",
+      "codebuild:CreateReport",
+      "codebuild:UpdateReport",
+      "codebuild:BatchPutTestCases",
+      "codebuild:BatchPutCodeCoverages"
     ]
 
     resources = ["*"]
@@ -79,33 +72,52 @@ data "aws_iam_policy_document" "codepipeline_policy" {
     effect = "Allow"
 
     actions = [
-        "ecr:DescribeImages",
+      "elasticloadbalancing:DescribeTargetGroups",
+      "elasticloadbalancing:DescribeListeners",
+      "elasticloadbalancing:ModifyListener",
+      "elasticloadbalancing:DescribeRules",
+      "elasticloadbalancing:ModifyRule",
+      "lambda:InvokeFunction",
+      "cloudwatch:DescribeAlarms",
+      "sns:Publish",
+    ]
+
+    resources = ["*"]
+  }
+
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "s3:*",
+      "ecs:*"
+    ]
+
+    resources = ["*"]
+  }
+
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "ecr:DescribeImages",
     ]
 
     resources = ["*"]
   }
 }
 
-data "aws_iam_policy_document" "pipeline_assume_role" {
+data "aws_iam_policy_document" "assume_role" {
   statement {
     effect = "Allow"
 
     principals {
       type        = "Service"
-      identifiers = ["codepipeline.amazonaws.com"]
-    }
-
-    actions = ["sts:AssumeRole"]
-  }
-}
-
-data "aws_iam_policy_document" "build_assume_role" {
-  statement {
-    effect = "Allow"
-
-    principals {
-      type        = "Service"
-      identifiers = ["codebuild.amazonaws.com"]
+      identifiers = [
+        "codepipeline.amazonaws.com",
+        "codebuild.amazonaws.com",
+        "events.amazonaws.com"
+      ]
     }
 
     actions = ["sts:AssumeRole"]
@@ -114,12 +126,12 @@ data "aws_iam_policy_document" "build_assume_role" {
 
 resource "aws_iam_role" "codepipeline_role" {
   name               = "${var.code_pipeline_name}-role"
-  assume_role_policy = data.aws_iam_policy_document.pipeline_assume_role.json
+  assume_role_policy = data.aws_iam_policy_document.assume_role.json
 }
 
 resource "aws_iam_role" "codebuild_role" {
   name               = "${var.code_pipeline_name}-build-role"
-  assume_role_policy = data.aws_iam_policy_document.build_assume_role.json
+  assume_role_policy = data.aws_iam_policy_document.assume_role.json
 }
 
 resource "aws_iam_role_policy" "codepipeline_policy" {

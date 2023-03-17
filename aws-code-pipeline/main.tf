@@ -40,7 +40,7 @@ resource "aws_codepipeline" "codepipeline" {
       configuration = {
         RepositoryName       = var.codecommit_repo_name
         BranchName           = var.codecommit_branch
-        PollForSourceChanges = "true"
+        PollForSourceChanges = "false"
       }
     }
   }

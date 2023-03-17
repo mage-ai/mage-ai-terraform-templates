@@ -133,6 +133,7 @@ data "aws_iam_policy_document" "event_policy" {
     ]
 
     resources = [
+      aws_codepipeline.codepipeline.arn,
       aws_codepipeline.ecr-codepipeline.arn
     ]
   }

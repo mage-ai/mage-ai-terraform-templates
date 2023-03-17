@@ -10,7 +10,7 @@ resource "aws_codebuild_project" "codebuild" {
   name          = "${var.code_pipeline_name}-build-docker"
   description   = "Build docker image and push to ECR"
   build_timeout = "5"
-  service_role  = aws_iam_role.codebuild_role.arn
+  service_role  = aws_iam_role.codepipeline_role.arn
 
   artifacts {
     type = "CODEPIPELINE"
@@ -69,7 +69,7 @@ resource "aws_codebuild_project" "ecr-codebuild" {
   name          = "${var.code_pipeline_name}-create-imagedefinitions"
   description   = "Create imagedefinitions.json file"
   build_timeout = "5"
-  service_role  = aws_iam_role.codebuild_role.arn
+  service_role  = aws_iam_role.codepipeline_role.arn
 
   artifacts {
     type = "CODEPIPELINE"

@@ -1,6 +1,6 @@
 resource "aws_cloudwatch_event_rule" "ecr_image_push" {
   name     = "${var.code_pipeline_name}-ecr-image-push"
-  role_arn = aws_iam_role.codepipeline_role.arn
+  role_arn = aws_iam_role.event_role.arn
 
   event_pattern = jsonencode({
     source      = ["aws.ecr"]
@@ -19,5 +19,5 @@ resource "aws_cloudwatch_event_target" "ecr_image_push" {
   rule      = aws_cloudwatch_event_rule.ecr_image_push.name
   target_id = aws_codepipeline.ecr-codepipeline.name
   arn       = aws_codepipeline.ecr-codepipeline.arn
-  role_arn  = aws_iam_role.codepipeline_role.arn
+  role_arn  = aws_iam_role.event_role.arn
 }

@@ -124,24 +124,34 @@ data "aws_iam_policy_document" "assume_role" {
   }
 }
 
+data "aws_iam_policy_document" "event_policy" {
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "codepipeline:StartPipelineExecution"
+    ]
+
+    resources = [
+      aws_codepipeline.ecr-codepipeline.arn
+    ]
+  }
+}
+
 resource "aws_iam_role" "codepipeline_role" {
   name               = "${var.code_pipeline_name}-role"
   assume_role_policy = data.aws_iam_policy_document.assume_role.json
+  inline_policy {
+    name   = "${var.code_pipeline_name}-policy"
+    policy = data.aws_iam_policy_document.codepipeline_policy.json
+  }
 }
 
-resource "aws_iam_role" "codebuild_role" {
-  name               = "${var.code_pipeline_name}-build-role"
+resource "aws_iam_role" "event_role" {
+  name               = "${var.code_pipeline_name}-event-role"
   assume_role_policy = data.aws_iam_policy_document.assume_role.json
-}
-
-resource "aws_iam_role_policy" "codepipeline_policy" {
-  name   = "${var.code_pipeline_name}-policy"
-  role   = aws_iam_role.codepipeline_role.id
-  policy = data.aws_iam_policy_document.codepipeline_policy.json
-}
-
-resource "aws_iam_role_policy" "codebuild_policy" {
-  name   = "${var.code_pipeline_name}-build-policy"
-  role   = aws_iam_role.codebuild_role.id
-  policy = data.aws_iam_policy_document.codepipeline_policy.json
+  inline_policy {
+    name   = "${var.code_pipeline_name}-ecr-event-policy"
+    policy = data.aws_iam_policy_document.event_policy.json
+  }
 }

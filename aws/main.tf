@@ -87,8 +87,8 @@ resource "aws_ecs_task_definition" "aws-ecs-task" {
       "ulimits": [
         {
           "name": "nofile",
-          "softLimit": 8192,
-          "hardLimit": 16384
+          "softLimit": 16384,
+          "hardLimit": 32768
         }
       ]
     }

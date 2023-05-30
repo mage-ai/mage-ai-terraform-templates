@@ -132,6 +132,10 @@ resource "google_cloud_run_service" "run_service" {
           name  = "MAGE_DATABASE_CONNECTION_URL"
           value = "postgresql://${var.database_user}:${var.database_password}@/${var.app_name}-db?host=/cloudsql/${google_sql_database_instance.instance.connection_name}"
         }
+        env {
+          name  = "ULIMIT_NO_FILE"
+          value = 16384
+        }
         # volume_mounts {
         #   mount_path = "/secrets/bigquery"
         #   name       = "secret-bigquery-key"

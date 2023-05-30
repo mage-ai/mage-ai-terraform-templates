@@ -134,6 +134,10 @@ resource "google_cloud_run_service" "run_service" {
           value = "postgresql://${var.database_user}:${var.database_password}@/${var.app_name}-db?host=/cloudsql/${google_sql_database_instance.instance.connection_name}"
         }
         env {
+          name  = "ULIMIT_NO_FILE"
+          value = 16384
+        }
+        env {
           name  = "path_to_keyfile" # Try not to change this environment variable name
           value = var.path_to_keyfile
         }

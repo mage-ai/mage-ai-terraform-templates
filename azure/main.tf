@@ -62,6 +62,7 @@ resource "azurerm_container_group" "container_group" {
       "AZURE_STORAGE_ACCOUNT_NAME"  = var.storage_account_name
       "AZURE_SUBSCRIPTION_ID"       = data.azurerm_subscription.current.subscription_id
       "AZURE_TENANT_ID"             = azuread_service_principal.app.application_tenant_id
+      "ULIMIT_NO_FILE"               = 16384
     }
   }
 

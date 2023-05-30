@@ -60,7 +60,12 @@ resource "azurerm_container_group" "container_group" {
       "AZURE_CLIENT_ID"             = azuread_service_principal.app.application_id
       "AZURE_CLIENT_SECRET"         = azuread_service_principal_password.app.value
       "AZURE_STORAGE_ACCOUNT_NAME"  = var.storage_account_name
+      "AZURE_STORAGE_ACCOUNT_KEY"   = azurerm_storage_account.aci_storage.primary_access_key
+      "AZURE_SUBSCRIPTION_ID"       = data.azurerm_subscription.current.subscription_id
+      "AZURE_RESOURCE_GROUP_NAME"   = azurerm_resource_group.resource_group.name
+      "AZURE_CONTAINER_GROUP_NAME"  = "${var.app_name}-${var.app_environment}"
       "AZURE_TENANT_ID"             = azuread_service_principal.app.application_tenant_id
+      "ULIMIT_NO_FILE"               = 16384
     }
   }
 

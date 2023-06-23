@@ -22,5 +22,9 @@
     {
         "name": "MAGE_EC2_SUBNET_ID",
         "value": "${ec2_subnet_id}"
+    },
+    {
+        "name": "REQUIRE_USER_AUTHENTICATION",
+        "value": "1"
     }
 ]

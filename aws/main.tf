@@ -24,6 +24,7 @@ resource "aws_ecs_cluster" "aws-ecs-cluster" {
   tags = {
     Name        = "${var.app_name}-ecs"
     Environment = var.app_environment
+    Team        = "data-engineering"
   }
 }
 
@@ -33,6 +34,7 @@ resource "aws_cloudwatch_log_group" "log-group" {
   tags = {
     Application = var.app_name
     Environment = var.app_environment
+    Team        = "data-engineering"
   }
 }
 
@@ -114,6 +116,8 @@ resource "aws_ecs_task_definition" "aws-ecs-task" {
   tags = {
     Name        = "${var.app_name}-ecs-td"
     Environment = var.app_environment
+    Team        = "data-engineering"
+    
   }
 
   # depends_on = [aws_lambda_function.terraform_lambda_func]
@@ -172,6 +176,7 @@ resource "aws_security_group" "service_security_group" {
   tags = {
     Name        = "${var.app_name}-service-sg"
     Environment = var.app_environment
+    Team        = "data-engineering"
   }
 }
 

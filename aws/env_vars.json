@@ -1,7 +1,7 @@
 [
     {
         "name": "ENV",
-        "value": "production"
+        "value": "prod"
     },
     {
         "name": "AWS_ACCESS_KEY_ID",

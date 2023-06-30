@@ -5,10 +5,12 @@ resource "aws_efs_file_system" "file_system" {
   performance_mode  = "generalPurpose"
   throughput_mode   = "elastic"
 
-  tags = {
-    Name        = "${var.app_name}-efs"
-    Environment = var.app_environment
-  }
+  tags = merge (
+    var.common_tags,
+    {
+        Name = "${var.app_name}-efs"
+    }
+  )
 }
 
 resource "aws_efs_mount_target" "mount_target" {
@@ -29,8 +31,10 @@ resource "aws_security_group" "mount_target_security_group" {
     security_groups  = [aws_security_group.service_security_group.id]
   }
 
-  tags = {
-    Name        = "${var.app_name}-efs-sg"
-    Environment = var.app_environment
-  }
+  tags = merge (
+    var.common_tags,
+    {
+        Name = "${var.app_name}-efs-sg"
+    }
+  )
 }

@@ -7,10 +7,12 @@ resource "aws_alb" "application_load_balancer" {
   subnets            = aws_subnet.public.*.id
   security_groups    = [aws_security_group.load_balancer_security_group.id]
 
-  tags = {
-    Name        = "${var.app_name}-alb"
-    Environment = var.app_environment
-  }
+  tags = merge (
+    var.common_tags,
+    {
+        Name = "${var.app_name}-alb"
+    }
+  )
 }
 
 data "http" "myip" {
@@ -41,10 +43,13 @@ resource "aws_security_group" "load_balancer_security_group" {
     cidr_blocks      = ["0.0.0.0/0"]
     ipv6_cidr_blocks = ["::/0"]
   }
-  tags = {
-    Name        = "${var.app_name}-sg"
-    Environment = var.app_environment
-  }
+  
+  tags = merge (
+    var.common_tags,
+    {
+        Name = "${var.app_name}-sg"
+    }
+  )
 }
 
 resource "aws_lb_target_group" "target_group" {
@@ -64,10 +69,12 @@ resource "aws_lb_target_group" "target_group" {
     unhealthy_threshold = "2"
   }
 
-  tags = {
-    Name        = "${var.app_name}-lb-tg"
-    Environment = var.app_environment
-  }
+  tags = merge (
+    var.common_tags,
+    {
+        Name = "${var.app_name}-lb-tg"
+    }
+  )
 }
 
 resource "aws_lb_listener" "listener" {

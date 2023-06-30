@@ -4,9 +4,12 @@ resource "aws_db_subnet_group" "rds_subnet_group" {
   name        = "${var.app_name}-${var.app_environment}-rds-subnet-group"
   description = "${var.app_name} RDS subnet group"
   subnet_ids  = aws_subnet.public.*.id
-  tags = {
-    Environment = var.app_environment
-  }
+  tags = merge (
+    var.common_tags,
+    {
+        Name = "${var.app_name}-${var.app_environment}-rds-subnet-group"
+    }
+  )
 }
 
 
@@ -15,10 +18,12 @@ resource "aws_security_group" "rds_sg" {
   description = "${var.app_name} RDS Security Group"
   vpc_id = aws_vpc.aws-vpc.id
 
-  tags = {
-    Name = "${var.app_name}-${var.app_environment}-rds-sg"
-    Environment =  var.app_environment
-  }
+  tags = merge (
+    var.common_tags,
+    {
+        Name = "${var.app_name}-${var.app_environment}-rds-sg"
+    }
+  )
 
   // allows traffic from the SG itself
   ingress {
@@ -45,6 +50,19 @@ resource "aws_security_group" "rds_sg" {
   }
 }
 
+resource "aws_secretsmanager_secret" "db_credentials" {
+  name        = "${var.app_name}/${var.app_environment}/RDS_db_credentials"
+  description = "Mage RDS Database credentials"
+}
+
+resource "aws_secretsmanager_secret_version" "db_credentials" {
+  secret_id     = aws_secretsmanager_secret.db_credentials.id
+  secret_string = jsonencode({
+    "User name" = "${var.database_user}"
+    "Password" = "${var.database_password}"
+  })
+}
+
 resource "aws_db_instance" "rds" {
   identifier             = "${var.app_name}-${var.app_environment}-db"
   allocated_storage      = 20
@@ -60,7 +78,10 @@ resource "aws_db_instance" "rds" {
   skip_final_snapshot    = true
   publicly_accessible    = true
 
-  tags = {
-    Environment = var.app_environment
-  }
+  tags = merge (
+    var.common_tags,
+    {
+        Name = "${var.app_name}-${var.app_environment}-db"
+    }
+  )
 }

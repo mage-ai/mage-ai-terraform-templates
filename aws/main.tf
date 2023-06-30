@@ -21,21 +21,18 @@ resource "aws_ecs_cluster" "aws-ecs-cluster" {
     value = "enabled"
   }
 
-  tags = {
-    Name        = "${var.app_name}-ecs"
-    Environment = var.app_environment
-    Team        = "data-engineering"
-  }
+  tags = merge (
+    var.common_tags,
+    {
+        Name = "${var.app_name}-ecs"
+    }
+  )
 }
 
 resource "aws_cloudwatch_log_group" "log-group" {
   name = "${var.app_name}-${var.app_environment}-logs"
 
-  tags = {
-    Application = var.app_name
-    Environment = var.app_environment
-    Team        = "data-engineering"
-  }
+  tags = var.common_tags
 }
 
 data "template_file" "env_vars" {
@@ -113,12 +110,12 @@ resource "aws_ecs_task_definition" "aws-ecs-task" {
     }
   }
 
-  tags = {
-    Name        = "${var.app_name}-ecs-td"
-    Environment = var.app_environment
-    Team        = "data-engineering"
-    
-  }
+  tags = merge (
+    var.common_tags,
+    {
+        Name = "${var.app_name}-ecs-td"
+    }
+  )
 
   # depends_on = [aws_lambda_function.terraform_lambda_func]
 }
@@ -173,10 +170,11 @@ resource "aws_security_group" "service_security_group" {
     ipv6_cidr_blocks = ["::/0"]
   }
 
-  tags = {
-    Name        = "${var.app_name}-service-sg"
-    Environment = var.app_environment
-    Team        = "data-engineering"
-  }
+  tags = merge (
+    var.common_tags,
+    {
+        Name = "${var.app_name}-service-sg"
+    }
+  )
 }
 

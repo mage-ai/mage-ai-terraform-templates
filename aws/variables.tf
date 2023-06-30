@@ -33,7 +33,7 @@ variable "aws_cloudwatch_retention_in_days" {
 variable "app_name" {
   type        = string
   description = "Application Name"
-  default     = "dataeng-mage"
+  default     = "mage-data-prep"
 }
 
 variable "app_environment" {
@@ -87,4 +87,14 @@ variable "private_subnets" {
 variable "availability_zones" {
   description = "List of availability zones"
   default     = ["us-west-2a", "us-west-2b"]
+}
+
+variable "common_tags" {
+  description = "Common tags for all resources"
+  type        = map(string)
+  default     = {
+    Environment = "prod"
+    ManagedBy   = "Terraform"
+    Owner       = "data-engineering"
+  }
 }

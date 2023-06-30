@@ -132,6 +132,12 @@ resource "aws_ecs_service" "aws-ecs-service" {
   scheduling_strategy  = "REPLICA"
   desired_count        = 1
   force_new_deployment = true
+  tags = merge (
+    var.common_tags,
+    {
+        Name = "${var.app_name}-ecs-service"
+    }
+  )
 
   network_configuration {
     subnets          = aws_subnet.public.*.id

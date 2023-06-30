@@ -51,8 +51,14 @@ resource "aws_security_group" "rds_sg" {
 }
 
 resource "aws_secretsmanager_secret" "db_credentials" {
-  name        = "${var.app_name}/${var.app_environment}/RDS_db_credentials"
+  name        = "${var.app_name}/${var.app_environment}/rds_db_credentials"
   description = "Mage RDS Database credentials"
+  tags = merge (
+    var.common_tags,
+    {
+        Name = "${var.app_name}-${var.app_environment}-rds-db-credentials"
+    }
+  )
 }
 
 resource "aws_secretsmanager_secret_version" "db_credentials" {

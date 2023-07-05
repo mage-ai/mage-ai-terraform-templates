@@ -7,10 +7,10 @@ resource "aws_alb" "application_load_balancer" {
   subnets            = aws_subnet.public.*.id
   security_groups    = [aws_security_group.load_balancer_security_group.id]
 
-  tags = merge (
+  tags = merge(
     var.common_tags,
     {
-        Name = "${var.app_name}-alb"
+      Name = "${var.app_name}-alb"
     }
   )
 }
@@ -23,17 +23,17 @@ resource "aws_security_group" "load_balancer_security_group" {
   vpc_id = aws_vpc.aws-vpc.id
 
   ingress {
-    from_port        = 443
-    to_port          = 443
-    protocol         = "tcp"
-    cidr_blocks      = ["${chomp(data.http.myip.response_body)}/32"]
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["${chomp(data.http.myip.response_body)}/32"]
   }
 
   ingress {
-    from_port        = 80
-    to_port          = 80
-    protocol         = "tcp"
-    cidr_blocks      = ["${chomp(data.http.myip.response_body)}/32"]
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["${chomp(data.http.myip.response_body)}/32"]
   }
 
   egress {
@@ -43,11 +43,11 @@ resource "aws_security_group" "load_balancer_security_group" {
     cidr_blocks      = ["0.0.0.0/0"]
     ipv6_cidr_blocks = ["::/0"]
   }
-  
-  tags = merge (
+
+  tags = merge(
     var.common_tags,
     {
-        Name = "${var.app_name}-sg"
+      Name = "${var.app_name}-sg"
     }
   )
 }
@@ -69,21 +69,78 @@ resource "aws_lb_target_group" "target_group" {
     unhealthy_threshold = "2"
   }
 
-  tags = merge (
+  tags = merge(
     var.common_tags,
     {
-        Name = "${var.app_name}-lb-tg"
+      Name = "${var.app_name}-lb-tg"
     }
   )
 }
 
-resource "aws_lb_listener" "listener" {
-  load_balancer_arn = aws_alb.application_load_balancer.id
+data "aws_acm_certificate" "cert" {
+  domain      = "nursa-dataeng.com"
+  statuses    = ["ISSUED"]
+  most_recent = true
+}
+
+resource "aws_lb_listener" "http_listener" {
+  load_balancer_arn = aws_alb.application_load_balancer.arn
   port              = "80"
   protocol          = "HTTP"
 
   default_action {
-     type             = "forward"
-     target_group_arn = aws_lb_target_group.target_group.id
+    type = "redirect"
+
+    redirect {
+      port        = "443"
+      protocol    = "HTTPS"
+      status_code = "HTTP_301"
+    }
+  }
+
+  tags = merge(
+    var.common_tags,
+    {
+      Name = "${var.app_name}-lb-http_listener"
+    }
+  )
+
+  depends_on = [aws_lb_listener.https_listener]
+
+}
+
+resource "aws_lb_listener" "https_listener" {
+  load_balancer_arn = aws_alb.application_load_balancer.arn
+  port              = "443"
+  protocol          = "HTTPS"
+  ssl_policy        = "ELBSecurityPolicy-TLS13-1-2-2021-06"
+  certificate_arn   = data.aws_acm_certificate.cert.arn
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.target_group.arn
+  }
+
+  tags = merge(
+    var.common_tags,
+    {
+      Name = "${var.app_name}-lb-https_listener"
+    }
+  )
+}
+
+data "aws_route53_zone" "nursa_dataeng" {
+  name = "nursa-dataeng.com"
+}
+
+resource "aws_route53_record" "mage_record" {
+  zone_id = data.aws_route53_zone.nursa_dataeng.zone_id
+  name    = "mage.nursa-dataeng.com"
+  type    = "A"
+
+  alias {
+    name                   = aws_alb.application_load_balancer.dns_name
+    zone_id                = aws_alb.application_load_balancer.zone_id
+    evaluate_target_health = false
   }
 }

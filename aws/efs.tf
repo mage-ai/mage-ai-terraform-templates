@@ -1,23 +1,23 @@
 # efs.tf | Elastic File System Configuration
 
 resource "aws_efs_file_system" "file_system" {
-  encrypted         = true
-  performance_mode  = "generalPurpose"
-  throughput_mode   = "elastic"
+  encrypted        = true
+  performance_mode = "generalPurpose"
+  throughput_mode  = "elastic"
 
-  tags = merge (
+  tags = merge(
     var.common_tags,
     {
-        Name = "${var.app_name}-efs"
+      Name = "${var.app_name}-efs"
     }
   )
 }
 
 resource "aws_efs_mount_target" "mount_target" {
-  count = length(aws_subnet.public)
-  file_system_id = aws_efs_file_system.file_system.id
-  subnet_id      = aws_subnet.public[count.index].id
-  security_groups = [ aws_security_group.mount_target_security_group.id ]
+  count           = length(aws_subnet.public)
+  file_system_id  = aws_efs_file_system.file_system.id
+  subnet_id       = aws_subnet.public[count.index].id
+  security_groups = [aws_security_group.mount_target_security_group.id]
 }
 
 
@@ -25,16 +25,16 @@ resource "aws_security_group" "mount_target_security_group" {
   vpc_id = aws_vpc.aws-vpc.id
 
   ingress {
-    from_port        = 2049
-    to_port          = 2049
-    protocol         = "tcp"
-    security_groups  = [aws_security_group.service_security_group.id]
+    from_port       = 2049
+    to_port         = 2049
+    protocol        = "tcp"
+    security_groups = [aws_security_group.service_security_group.id]
   }
 
-  tags = merge (
+  tags = merge(
     var.common_tags,
     {
-        Name = "${var.app_name}-efs-sg"
+      Name = "${var.app_name}-efs-sg"
     }
   )
 }

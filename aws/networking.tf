@@ -2,10 +2,10 @@
 
 resource "aws_internet_gateway" "aws-igw" {
   vpc_id = aws_vpc.aws-vpc.id
-  tags = merge (
+  tags = merge(
     var.common_tags,
     {
-        Name = "${var.app_name}-igw"
+      Name = "${var.app_name}-igw"
     }
   )
 
@@ -17,10 +17,10 @@ resource "aws_subnet" "private" {
   cidr_block        = element(var.private_subnets, count.index)
   availability_zone = element(var.availability_zones, count.index)
 
-  tags = merge (
+  tags = merge(
     var.common_tags,
     {
-        Name = "${var.app_name}-private-subnet-${count.index + 1}"
+      Name = "${var.app_name}-private-subnet-${count.index + 1}"
     }
   )
 }
@@ -32,10 +32,10 @@ resource "aws_subnet" "public" {
   count                   = length(var.public_subnets)
   map_public_ip_on_launch = true
 
-  tags = merge (
+  tags = merge(
     var.common_tags,
     {
-        Name = "${var.app_name}-public-subnet-${count.index + 1}"
+      Name = "${var.app_name}-public-subnet-${count.index + 1}"
     }
   )
 }
@@ -43,10 +43,10 @@ resource "aws_subnet" "public" {
 resource "aws_route_table" "public" {
   vpc_id = aws_vpc.aws-vpc.id
 
-  tags = merge (
+  tags = merge(
     var.common_tags,
     {
-        Name = "${var.app_name}-routing-table-public"
+      Name = "${var.app_name}-routing-table-public"
     }
   )
 }

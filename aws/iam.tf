@@ -3,10 +3,10 @@
 resource "aws_iam_role" "ecsTaskExecutionRole" {
   name               = "${var.app_name}-execution-task-role"
   assume_role_policy = data.aws_iam_policy_document.assume_role_policy.json
-  tags = merge (
+  tags = merge(
     var.common_tags,
     {
-        Name = "${var.app_name}-iam-role"
+      Name = "${var.app_name}-iam-role"
     }
   )
 }

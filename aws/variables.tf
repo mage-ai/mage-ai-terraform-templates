@@ -1,10 +1,10 @@
 variable "AWS_ACCESS_KEY_ID" {
-  type = string
+  type    = string
   default = "AWS_ACCESS_KEY_ID"
 }
 
 variable "AWS_SECRET_ACCESS_KEY" {
-  type = string
+  type    = string
   default = "AWS_SECRET_ACCESS_KEY"
 }
 
@@ -14,7 +14,7 @@ variable "DATABASE_CONNECTION_URL" {
 }
 
 variable "app_count" {
-  type = number
+  type    = number
   default = 1
 }
 
@@ -92,7 +92,7 @@ variable "availability_zones" {
 variable "common_tags" {
   description = "Common tags for all resources"
   type        = map(string)
-  default     = {
+  default = {
     Environment = "prod"
     ManagedBy   = "Terraform"
     Owner       = "data-engineering"

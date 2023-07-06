@@ -39,7 +39,7 @@ resource "google_vpc_access_connector" "connector" {
 #   attach_public_ip = true
 #   project     = var.project_id
 #   network     = "default"
-#   machine_type = "e2-medium"
+#   machine_type = "e2-small"
 #   export_paths = [
 #     "/share/mage",
 #   ]

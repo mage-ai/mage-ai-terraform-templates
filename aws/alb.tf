@@ -30,7 +30,8 @@ resource "aws_security_group" "load_balancer_security_group" {
     cidr_blocks = [
       "50.168.68.90/32", # office
       "76.140.96.213/32",
-      "67.2.180.194/32"
+      "67.2.180.194/32",
+      "73.63.25.63/32"
     ]
 
   }
@@ -43,7 +44,8 @@ resource "aws_security_group" "load_balancer_security_group" {
     cidr_blocks = [
       "50.168.68.90/32", # office
       "76.140.96.213/32",
-      "67.2.180.194/32"
+      "67.2.180.194/32",
+      "73.63.25.63/32"
     ]
   }
 

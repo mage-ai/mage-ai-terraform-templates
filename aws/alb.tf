@@ -26,14 +26,25 @@ resource "aws_security_group" "load_balancer_security_group" {
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
-    cidr_blocks = ["${chomp(data.http.myip.response_body)}/32"]
+    description = "dataeng team ips"
+    cidr_blocks = [
+      "50.168.68.90/32", # office
+      "76.140.96.213/32",
+      "67.2.180.194/32"
+    ]
+
   }
 
   ingress {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = ["${chomp(data.http.myip.response_body)}/32"]
+    description = "dataeng team ips"
+    cidr_blocks = [
+      "50.168.68.90/32", # office
+      "76.140.96.213/32",
+      "67.2.180.194/32"
+    ]
   }
 
   egress {

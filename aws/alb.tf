@@ -20,7 +20,7 @@ data "http" "myip" {
 }
 
 resource "aws_security_group" "load_balancer_security_group" {
-  vpc_id = aws_vpc.aws-vpc.id
+  vpc_id = data.aws_vpc.aws-vpc.id
 
   ingress {
     from_port   = 443
@@ -57,7 +57,7 @@ resource "aws_lb_target_group" "target_group" {
   port        = 6789
   protocol    = "HTTP"
   target_type = "ip"
-  vpc_id      = aws_vpc.aws-vpc.id
+  vpc_id      = data.aws_vpc.aws-vpc.id
 
   health_check {
     healthy_threshold   = "3"

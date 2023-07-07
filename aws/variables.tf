@@ -76,12 +76,12 @@ variable "ecs_task_memory" {
 
 variable "public_subnets" {
   description = "List of public subnets"
-  default     = ["10.32.100.0/24", "10.32.101.0/24"]
+  default     = ["172.31.202.0/24", "172.31.203.0/24"]
 }
 
 variable "private_subnets" {
   description = "List of private subnets"
-  default     = ["10.32.0.0/24", "10.32.1.0/24"]
+  default     = ["172.31.200.0/24", "172.31.201.0/24"]
 }
 
 variable "availability_zones" {

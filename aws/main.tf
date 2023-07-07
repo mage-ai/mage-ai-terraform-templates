@@ -158,7 +158,7 @@ resource "aws_ecs_service" "aws-ecs-service" {
 }
 
 resource "aws_security_group" "service_security_group" {
-  vpc_id = aws_vpc.aws-vpc.id
+  vpc_id = data.aws_vpc.aws-vpc.id
 
   ingress {
     from_port       = 6789

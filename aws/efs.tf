@@ -22,7 +22,7 @@ resource "aws_efs_mount_target" "mount_target" {
 
 
 resource "aws_security_group" "mount_target_security_group" {
-  vpc_id = aws_vpc.aws-vpc.id
+  vpc_id = data.aws_vpc.aws-vpc.id
 
   ingress {
     from_port       = 2049

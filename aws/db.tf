@@ -16,7 +16,7 @@ resource "aws_db_subnet_group" "rds_subnet_group" {
 resource "aws_security_group" "rds_sg" {
   name        = "${var.app_name}-${var.app_environment}-rds-sg"
   description = "${var.app_name} RDS Security Group"
-  vpc_id      = aws_vpc.aws-vpc.id
+  vpc_id      = data.aws_vpc.aws-vpc.id
 
   tags = merge(
     var.common_tags,
@@ -51,12 +51,12 @@ resource "aws_security_group" "rds_sg" {
 }
 
 resource "aws_secretsmanager_secret" "db_credentials" {
-  name        = "${var.app_name}/${var.app_environment}/rds_db_credentials"
+  name        = "${var.app_name}/${var.app_environment}/rds-db-creds"
   description = "Mage RDS Database credentials"
   tags = merge(
     var.common_tags,
     {
-      Name = "${var.app_name}-${var.app_environment}-rds-db-credentials"
+      Name = "${var.app_name}-${var.app_environment}-rds-db-creds"
     }
   )
 }

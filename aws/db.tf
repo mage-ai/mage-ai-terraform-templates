@@ -64,8 +64,8 @@ resource "aws_secretsmanager_secret" "db_credentials" {
 resource "aws_secretsmanager_secret_version" "db_credentials" {
   secret_id = aws_secretsmanager_secret.db_credentials.id
   secret_string = jsonencode({
-    "User name" = "${var.database_user}"
-    "Password"  = "${var.database_password}"
+    "user" = "${var.database_user}"
+    "password"  = "${var.database_password}"
   })
 }
 
@@ -73,7 +73,7 @@ resource "aws_db_instance" "rds" {
   identifier             = "${var.app_name}-${var.app_environment}-db"
   allocated_storage      = 20
   engine                 = "postgres"
-  engine_version         = "13.7"
+  engine_version         = "13.10"
   instance_class         = "db.t3.micro"
   multi_az               = false
   db_name                = "mage"

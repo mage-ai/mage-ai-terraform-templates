@@ -15,10 +15,6 @@ resource "aws_alb" "application_load_balancer" {
   )
 }
 
-# data "http" "myip" {
-#   url = "http://ipv4.icanhazip.com"
-# }
-
 resource "aws_security_group" "load_balancer_security_group" {
   vpc_id = data.aws_vpc.aws-vpc.id
 

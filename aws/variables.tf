@@ -42,11 +42,6 @@ variable "app_environment" {
   default     = "production"
 }
 
-# variable "cidr" {
-#   description = "The CIDR block for the VPC."
-#   default     = "10.32.0.0/16"
-# }
-
 variable "database_user" {
   type        = string
   description = "The username of the Postgres database."

@@ -93,9 +93,3 @@ variable "common_tags" {
     Owner       = "data-engineering"
   }
 }
-
-variable whitelist_cidr_blocks {
-  description = "values to allow access to the load balancer"
-  type = list(string)
-  default = []
-}

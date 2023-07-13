@@ -15,6 +15,15 @@ resource "aws_alb" "application_load_balancer" {
   )
 }
 
+data "aws_secretsmanager_secret_version" "whitelisted-ips" {
+  secret_id = "${var.app_name}/${var.app_environment}/whitelisted-ips"
+  version_stage = "AWSCURRENT"
+}
+
+locals {
+  cidr_blocks = jsondecode(data.aws_secretsmanager_secret_version.whitelisted-ips.secret_string)
+}
+
 resource "aws_security_group" "load_balancer_security_group" {
   vpc_id = data.aws_vpc.aws-vpc.id
 
@@ -23,16 +32,14 @@ resource "aws_security_group" "load_balancer_security_group" {
     to_port     = 443
     protocol    = "tcp"
     description = "dataeng team ips"
-    cidr_blocks = var.whitelist_cidr_blocks
-
+    cidr_blocks = values(local.cidr_blocks)
   }
-
   ingress {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
     description = "dataeng team ips"
-    cidr_blocks = var.whitelist_cidr_blocks
+    cidr_blocks = values(local.cidr_blocks)
   }
 
   egress {

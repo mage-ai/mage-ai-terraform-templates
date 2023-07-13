@@ -15,8 +15,13 @@ resource "aws_alb" "application_load_balancer" {
   )
 }
 
-data "http" "myip" {
-  url = "http://ipv4.icanhazip.com"
+data "aws_secretsmanager_secret_version" "whitelisted-ips" {
+  secret_id = "${var.app_name}/${var.app_environment}/whitelisted-ips"
+  version_stage = "AWSCURRENT"
+}
+
+locals {
+  cidr_blocks = jsondecode(data.aws_secretsmanager_secret_version.whitelisted-ips.secret_string)
 }
 
 resource "aws_security_group" "load_balancer_security_group" {
@@ -27,26 +32,14 @@ resource "aws_security_group" "load_balancer_security_group" {
     to_port     = 443
     protocol    = "tcp"
     description = "dataeng team ips"
-    cidr_blocks = [
-      "50.168.68.90/32", # office
-      "76.140.96.213/32",
-      "67.2.180.194/32",
-      "73.63.25.63/32"
-    ]
-
+    cidr_blocks = values(local.cidr_blocks)
   }
-
   ingress {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
     description = "dataeng team ips"
-    cidr_blocks = [
-      "50.168.68.90/32", # office
-      "76.140.96.213/32",
-      "67.2.180.194/32",
-      "73.63.25.63/32"
-    ]
+    cidr_blocks = values(local.cidr_blocks)
   }
 
   egress {

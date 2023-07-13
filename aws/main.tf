@@ -39,8 +39,6 @@ data "template_file" "env_vars" {
   template = file("env_vars.json")
 
   vars = {
-    aws_access_key_id     = var.AWS_ACCESS_KEY_ID
-    aws_secret_access_key = var.AWS_SECRET_ACCESS_KEY
     aws_region_name       = var.aws_region
     # lambda_func_arn = "${aws_lambda_function.terraform_lambda_func.arn}"
     # lambda_func_name = "${aws_lambda_function.terraform_lambda_func.function_name}"
@@ -164,7 +162,7 @@ resource "aws_security_group" "service_security_group" {
     from_port       = 6789
     to_port         = 6789
     protocol        = "tcp"
-    cidr_blocks     = ["${chomp(data.http.myip.response_body)}/32"]
+    cidr_blocks     = values(local.cidr_blocks)
     security_groups = [aws_security_group.load_balancer_security_group.id]
   }
 

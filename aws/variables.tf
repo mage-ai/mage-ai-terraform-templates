@@ -42,10 +42,10 @@ variable "app_environment" {
   default     = "production"
 }
 
-variable "cidr" {
-  description = "The CIDR block for the VPC."
-  default     = "10.32.0.0/16"
-}
+# variable "cidr" {
+#   description = "The CIDR block for the VPC."
+#   default     = "10.32.0.0/16"
+# }
 
 variable "database_user" {
   type        = string
@@ -97,4 +97,10 @@ variable "common_tags" {
     ManagedBy   = "Terraform"
     Owner       = "data-engineering"
   }
+}
+
+variable whitelist_cidr_blocks {
+  description = "values to allow access to the load balancer"
+  type = list(string)
+  default = []
 }

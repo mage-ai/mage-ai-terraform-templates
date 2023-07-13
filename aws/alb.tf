@@ -15,9 +15,9 @@ resource "aws_alb" "application_load_balancer" {
   )
 }
 
-data "http" "myip" {
-  url = "http://ipv4.icanhazip.com"
-}
+# data "http" "myip" {
+#   url = "http://ipv4.icanhazip.com"
+# }
 
 resource "aws_security_group" "load_balancer_security_group" {
   vpc_id = data.aws_vpc.aws-vpc.id
@@ -27,12 +27,7 @@ resource "aws_security_group" "load_balancer_security_group" {
     to_port     = 443
     protocol    = "tcp"
     description = "dataeng team ips"
-    cidr_blocks = [
-      "50.168.68.90/32", # office
-      "76.140.96.213/32",
-      "67.2.180.194/32",
-      "73.63.25.63/32"
-    ]
+    cidr_blocks = var.whitelist_cidr_blocks
 
   }
 
@@ -41,12 +36,7 @@ resource "aws_security_group" "load_balancer_security_group" {
     to_port     = 80
     protocol    = "tcp"
     description = "dataeng team ips"
-    cidr_blocks = [
-      "50.168.68.90/32", # office
-      "76.140.96.213/32",
-      "67.2.180.194/32",
-      "73.63.25.63/32"
-    ]
+    cidr_blocks = var.whitelist_cidr_blocks
   }
 
   egress {

@@ -7,3 +7,9 @@ common_tags = {
   Service   = "mage"
   Repo      = "nursa-com/mage-ai-terraform-templates"
 }
+whitelist_cidr_blocks = [
+      "50.168.68.90/32", # Office
+      "76.140.96.213/32",# Adam Home
+      "67.2.180.194/32", # Ethan Home
+      "73.63.25.63/32"   # Nate Home
+]

@@ -50,6 +50,11 @@ resource "aws_security_group" "rds_sg" {
   }
 }
 
+import {
+  to = aws_secretsmanager_secret.db_credentials
+  id = "dataeng-mage/prod/rds-db-creds"
+}
+
 resource "aws_secretsmanager_secret" "db_credentials" {
   name        = "${var.app_name}/${var.app_environment}/rds-db-creds"
   description = "Mage RDS Database credentials"

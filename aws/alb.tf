@@ -4,7 +4,7 @@ resource "aws_alb" "application_load_balancer" {
   name               = "${var.app_name}-${var.app_environment}-alb"
   internal           = false
   load_balancer_type = "application"
-  subnets            = aws_subnet.public.*.id
+  subnets            = [data.aws_subnet.subnet_1.id, data.aws_subnet.subnet_2.id]
   security_groups    = [aws_security_group.load_balancer_security_group.id]
 
   tags = merge(

@@ -1,58 +1,11 @@
 # networking.tf | Network Configuration
 
-data "aws_internet_gateway" "aws-igw" {
-  internet_gateway_id = "igw-013916bfc5e0ab176"
+# us-west-2a
+data "aws_subnet" "subnet_1" {
+  id = "subnet-0b196fcc05bfd0b0b"
 }
 
-
-resource "aws_subnet" "private" {
-  vpc_id            = data.aws_vpc.aws-vpc.id
-  count             = length(var.private_subnets)
-  cidr_block        = element(var.private_subnets, count.index)
-  availability_zone = element(var.availability_zones, count.index)
-
-  tags = merge(
-    var.common_tags,
-    {
-      Name = "${var.app_name}-private-subnet-${count.index + 1}"
-    }
-  )
-}
-
-resource "aws_subnet" "public" {
-  vpc_id                  = data.aws_vpc.aws-vpc.id
-  cidr_block              = element(var.public_subnets, count.index)
-  availability_zone       = element(var.availability_zones, count.index)
-  count                   = length(var.public_subnets)
-  map_public_ip_on_launch = true
-
-  tags = merge(
-    var.common_tags,
-    {
-      Name = "${var.app_name}-public-subnet-${count.index + 1}"
-    }
-  )
-}
-
-resource "aws_route_table" "public" {
-  vpc_id = data.aws_vpc.aws-vpc.id
-
-  tags = merge(
-    var.common_tags,
-    {
-      Name = "${var.app_name}-routing-table-public"
-    }
-  )
-}
-
-resource "aws_route" "public" {
-  route_table_id         = aws_route_table.public.id
-  destination_cidr_block = "0.0.0.0/0"
-  gateway_id             = data.aws_internet_gateway.aws-igw.internet_gateway_id
-}
-
-resource "aws_route_table_association" "public" {
-  count          = length(var.public_subnets)
-  subnet_id      = element(aws_subnet.public.*.id, count.index)
-  route_table_id = aws_route_table.public.id
+# us-west-2b
+data "aws_subnet" "subnet_2" {
+  id = "subnet-0ab32913852640bf3"
 }

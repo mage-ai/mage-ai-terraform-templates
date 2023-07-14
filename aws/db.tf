@@ -3,7 +3,7 @@
 resource "aws_db_subnet_group" "rds_subnet_group" {
   name        = "${var.app_name}-${var.app_environment}-rds-subnet-group"
   description = "${var.app_name} RDS subnet group"
-  subnet_ids  = aws_subnet.public.*.id
+  subnet_ids  = [data.aws_subnet.subnet_1.id, data.aws_subnet.subnet_2.id]
   tags = merge(
     var.common_tags,
     {
@@ -80,7 +80,7 @@ resource "aws_db_instance" "rds" {
   username               = var.database_user
   password               = var.database_password
   db_subnet_group_name   = aws_db_subnet_group.rds_subnet_group.id
-  vpc_security_group_ids = ["${aws_security_group.rds_sg.id}"]
+  vpc_security_group_ids = [aws_security_group.rds_sg.id, aws_security_group.rds_ec2_connect_sg.id]
   skip_final_snapshot    = true
   publicly_accessible    = true
 

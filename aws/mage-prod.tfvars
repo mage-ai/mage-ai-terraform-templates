@@ -7,3 +7,4 @@ common_tags = {
   Service   = "mage"
   Repo      = "nursa-com/mage-ai-terraform-templates"
 }
+docker_image = "015782078654.dkr.ecr.us-west-2.amazonaws.com/dataeng-mage:latest"

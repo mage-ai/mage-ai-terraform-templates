@@ -1,6 +1,8 @@
 # mage-ai-terraform-templates
 Terraform templates for deploying mage-ai to AWS, GCP and Azure
 
+> NOTE: We currently only use the AWS deployment templates in the `aws/` folder.
+
 ## Steps for Deploying
 
 We use the aws scripts for deploying to all commands should be ran in the `aws` directory. We have variables set for prod in `mage-prod.tfvars`. You must use this file in your terraform commands or it will completely destroy and redeploy everything.

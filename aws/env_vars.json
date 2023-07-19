@@ -18,5 +18,9 @@
   {
     "name": "REQUIRE_USER_AUTHENTICATION",
     "value": "1"
+  },
+  {
+    "name": "MAGE_PUBLIC_HOST",
+    "value": "mage.nursa-dataeng.com"
   }
 ]

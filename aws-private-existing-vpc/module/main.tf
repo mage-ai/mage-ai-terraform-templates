@@ -57,32 +57,7 @@ locals {
         }
       ]
     )
-
-    # env_vars = {
-    #   # aws_access_key_id = var.AWS_ACCESS_KEY_ID
-    #   # aws_secret_access_key = var.AWS_SECRET_ACCESS_KEY
-    #   # aws_region_name       = var.aws_region
-    #   # lambda_func_arn = "${aws_lambda_function.terraform_lambda_func.arn}"
-    #   # lambda_func_name = "${aws_lambda_function.terraform_lambda_func.function_name}"
-    #   database_connection_url = "postgresql+psycopg2://${var.database_user}:${var.database_password}@${aws_db_instance.rds.address}:5432/mage"
-    #   ec2_subnet_id = data.aws_subnets.subnets.ids[0]
-    # }
-
-    # env_vars_json = jsonencode(local.env_vars)
 }
-# data "template_file" "env_vars" {
-#   template = file("env_vars.json")
-
-#   vars = {
-#     aws_access_key_id = var.AWS_ACCESS_KEY_ID
-#     aws_secret_access_key = var.AWS_SECRET_ACCESS_KEY
-#     aws_region_name       = var.aws_region
-#     # lambda_func_arn = "${aws_lambda_function.terraform_lambda_func.arn}"
-#     # lambda_func_name = "${aws_lambda_function.terraform_lambda_func.function_name}"
-#     database_connection_url = "postgresql+psycopg2://${var.database_user}:${var.database_password}@${aws_db_instance.rds.address}:5432/mage"
-#     ec2_subnet_id = aws_subnet.public[0].id
-#   }
-# }
 
 resource "aws_ecs_task_definition" "aws-ecs-task" {
   family = "${var.app_name}-task"
@@ -184,6 +159,11 @@ resource "aws_ecs_service" "aws-ecs-service" {
   depends_on = [aws_lb_listener.listener]
 }
 
+data "http" "myip" {
+  url = "http://ipv4.icanhazip.com"
+}
+
+
 resource "aws_security_group" "service_security_group" {
   vpc_id = data.aws_vpc.selected.id
 
@@ -191,7 +171,8 @@ resource "aws_security_group" "service_security_group" {
     from_port       = 6789
     to_port         = 6789
     protocol        = "tcp"
-    cidr_blocks     = ["${chomp(data.http.myip.response_body)}/32"]
+    cidr_blocks     = var.allowed_cidr_blocks
+    # cidr_blocks     = ["${chomp(data.http.myip.response_body)}/32"]
     security_groups = [aws_security_group.load_balancer_security_group.id]
   }
 

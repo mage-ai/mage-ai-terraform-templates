@@ -11,7 +11,6 @@ variable "app_count" {
 variable "aws_region" {
   type        = string
   description = "AWS Region"
-  default     = "us-west-2"
 }
 
 variable "aws_cloudwatch_retention_in_days" {
@@ -30,11 +29,6 @@ variable "app_environment" {
   type        = string
   description = "Application Environment"
   default     = "production"
-}
-
-variable "cidr" {
-  description = "The CIDR block for the VPC."
-  default     = "10.32.0.0/16"
 }
 
 variable "database_user" {
@@ -56,21 +50,19 @@ variable "docker_image" {
 
 variable "ecs_task_cpu" {
   description = "ECS task cpu"
-  default     = 512
 }
 
 variable "ecs_task_memory" {
   description = "ECS task memory"
-  default     = 1024
-}
-
-variable "availability_zones" {
-  description = "List of availability zones"
-  default     = ["us-west-2a", "us-west-2b"]
 }
 
 variable "subnet_name" {
   type = string
   description = "Name of the subnet to deploy MageAI"
   default = "private"
+}
+
+variable "allowed_cidr_blocks" {
+  type = list(string)
+  description = "List of CIDR blocks to allow access to the ECS service"
 }

@@ -2,7 +2,7 @@
 
 resource "aws_alb" "application_load_balancer" {
   name               = "${var.app_name}-${var.app_environment}-alb"
-  internal           = false
+  internal           = true # TODO: change to true for private ALB
   load_balancer_type = "application"
   subnets            = data.aws_subnets.subnets.ids
   security_groups    = [aws_security_group.load_balancer_security_group.id]
@@ -13,10 +13,6 @@ resource "aws_alb" "application_load_balancer" {
   }
 }
 
-data "http" "myip" {
-  url = "http://ipv4.icanhazip.com"
-}
-
 resource "aws_security_group" "load_balancer_security_group" {
   vpc_id = data.aws_vpc.selected.id
 
@@ -24,14 +20,16 @@ resource "aws_security_group" "load_balancer_security_group" {
     from_port        = 443
     to_port          = 443
     protocol         = "tcp"
-    cidr_blocks      = ["${chomp(data.http.myip.response_body)}/32"]
+    # cidr_blocks      = ["${chomp(data.http.myip.response_body)}/32"]
+    cidr_blocks      = var.allowed_cidr_blocks
   }
 
   ingress {
     from_port        = 80
     to_port          = 80
     protocol         = "tcp"
-    cidr_blocks      = ["${chomp(data.http.myip.response_body)}/32"]
+    # cidr_blocks      = ["${chomp(data.http.myip.response_body)}/32"]
+    cidr_blocks      = var.allowed_cidr_blocks
   }
 
   egress {

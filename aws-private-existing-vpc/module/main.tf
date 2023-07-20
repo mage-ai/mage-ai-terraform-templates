@@ -159,11 +159,6 @@ resource "aws_ecs_service" "aws-ecs-service" {
   depends_on = [aws_lb_listener.listener]
 }
 
-data "http" "myip" {
-  url = "http://ipv4.icanhazip.com"
-}
-
-
 resource "aws_security_group" "service_security_group" {
   vpc_id = data.aws_vpc.selected.id
 
@@ -172,7 +167,6 @@ resource "aws_security_group" "service_security_group" {
     to_port         = 6789
     protocol        = "tcp"
     cidr_blocks     = var.allowed_cidr_blocks
-    # cidr_blocks     = ["${chomp(data.http.myip.response_body)}/32"]
     security_groups = [aws_security_group.load_balancer_security_group.id]
   }
 

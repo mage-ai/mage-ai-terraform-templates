@@ -9,7 +9,6 @@ resource "aws_db_subnet_group" "rds_subnet_group" {
   }
 }
 
-
 resource "aws_security_group" "rds_sg" {
   name = "${var.app_name}-${var.app_environment}-rds-sg"
   description = "${var.app_name} RDS Security Group"

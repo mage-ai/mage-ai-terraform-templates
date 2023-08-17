@@ -28,6 +28,6 @@ variable "region" {
 
 
 variable "ssh_pub_key" {
-  description = "Instance memory in GB"
+  description = "Path to SSH public key"
   default     = "~/.ssh/id_rsa.pub"
 }

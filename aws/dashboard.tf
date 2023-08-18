@@ -25,7 +25,7 @@ resource "aws_cloudwatch_dashboard" "iterable_mage_dashboard" {
             "x": 0,
             "type": "log",
             "properties": {
-                "query": "SOURCE 'dataeng-mage-prod-logs' | fields @timestamp, successCount, failCount\n| filter context.catalog_name = 'Jobs'\n| stats sum(successCount) as Success, sum(failCount) as Fail by bin(30m)\n",
+                "query": "SOURCE 'dataeng-mage-prod-logs' | fields @timestamp, successCount, failCount\n| filter context.catalog_name = 'Jobs'\n| stats sum(successCount) as Success by bin(30m)\n",
                 "region": "us-west-2",
                 "stacked": false,
                 "title": "Jobs Catalog",
@@ -39,7 +39,7 @@ resource "aws_cloudwatch_dashboard" "iterable_mage_dashboard" {
             "x": 12,
             "type": "log",
             "properties": {
-                "query": "SOURCE 'dataeng-mage-prod-logs' | fields @timestamp, successCount, failCount\n| filter context.catalog_name = 'Facilities'\n| stats sum(successCount) as Success, sum(failCount) as Fail by bin(30m)\n",
+                "query": "SOURCE 'dataeng-mage-prod-logs' | fields @timestamp, successCount, failCount\n| filter context.catalog_name = 'Facilities'\n| stats sum(successCount) as Success by bin(30m)\n",
                 "region": "us-west-2",
                 "stacked": false,
                 "title": "Facilities Catalog",

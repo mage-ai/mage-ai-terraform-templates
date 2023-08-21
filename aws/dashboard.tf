@@ -68,12 +68,12 @@ resource "aws_cloudwatch_dashboard" "iterable_mage_dashboard" {
         },
         {
             "height": 6,
-            "width": 12,
+            "width": 19,
             "y": 31,
-            "x": 0,
+            "x": 5,
             "type": "log",
             "properties": {
-                "query": "SOURCE 'dataeng-mage-prod-logs' | fields @timestamp, successCount, failCount\n| filter context.pipeline_uuid = 'iterable_user_data'\n| stats sum(successCount) as Success, sum(failCount) as Fail by bin(30m)\n| sort @timestamp desc\n| limit 20\n",
+                "query": "SOURCE 'dataeng-mage-prod-logs' | fields @timestamp, successCount, failCount\n| filter context.pipeline_uuid = 'iterable_user_data'\n| stats max(successCount) as Success, max(failCount) as Fail by bin(30m)\n| sort @timestamp desc\n| limit 20\n",
                 "region": "us-west-2",
                 "stacked": true,
                 "title": "Users Uploaded",
@@ -98,10 +98,10 @@ resource "aws_cloudwatch_dashboard" "iterable_mage_dashboard" {
             "height": 4,
             "width": 5,
             "y": 31,
-            "x": 12,
+            "x": 0,
             "type": "log",
             "properties": {
-                "query": "SOURCE 'dataeng-mage-prod-logs' | fields successCount, failCount\n| filter context.pipeline_uuid = 'iterable_user_data'\n| stats sum(successCount) as Success, sum(failCount) as Fail\n",
+                "query": "SOURCE 'dataeng-mage-prod-logs' | fields successCount, failCount\n| filter context.pipeline_uuid = 'iterable_user_data'\n| stats max(successCount) as unique_users, sum(successCount) as success, sum(failCount) as fail\n",
                 "region": "us-west-2",
                 "stacked": false,
                 "title": "Users - Total Sent (includes duplicates)",
@@ -133,7 +133,7 @@ resource "aws_cloudwatch_dashboard" "iterable_mage_dashboard" {
             }
         },
         {
-            "height": 6,
+            "height": 5,
             "width": 17,
             "y": 16,
             "x": 7,
@@ -161,9 +161,9 @@ resource "aws_cloudwatch_dashboard" "iterable_mage_dashboard" {
             }
         },
         {
-            "height": 7,
+            "height": 8,
             "width": 17,
-            "y": 22,
+            "y": 21,
             "x": 7,
             "type": "log",
             "properties": {

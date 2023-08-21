@@ -68,9 +68,9 @@ resource "aws_cloudwatch_dashboard" "iterable_mage_dashboard" {
         },
         {
             "height": 6,
-            "width": 19,
-            "y": 31,
-            "x": 5,
+            "width": 14,
+            "y": 34,
+            "x": 0,
             "type": "log",
             "properties": {
                 "query": "SOURCE 'dataeng-mage-prod-logs' | fields @timestamp, successCount, failCount\n| filter context.pipeline_uuid = 'iterable_user_data'\n| stats max(successCount) as Success, max(failCount) as Fail by bin(30m)\n| sort @timestamp desc\n| limit 20\n",
@@ -95,13 +95,13 @@ resource "aws_cloudwatch_dashboard" "iterable_mage_dashboard" {
             }
         },
         {
-            "height": 4,
-            "width": 5,
+            "height": 3,
+            "width": 14,
             "y": 31,
             "x": 0,
             "type": "log",
             "properties": {
-                "query": "SOURCE 'dataeng-mage-prod-logs' | fields successCount, failCount\n| filter context.pipeline_uuid = 'iterable_user_data'\n| stats max(successCount) as unique_users, sum(successCount) as success, sum(failCount) as fail\n",
+                "query": "SOURCE 'dataeng-mage-prod-logs' | fields successCount, failCount\n| filter context.pipeline_uuid = 'iterable_user_data'\n| stats max(successCount) as unique_users,\n max(failCount) as unique_failed,\n sum(successCount) as success,\n sum(failCount) as failed,\n unique_users - min(successCount) as new_users_success,\n unique_failed - min(failCount) as new_users_failed\n",
                 "region": "us-west-2",
                 "stacked": false,
                 "title": "Users - Total Sent (includes duplicates)",

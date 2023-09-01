@@ -165,22 +165,22 @@ resource "aws_iam_access_key" "mage_user_access_key" {
   user = aws_iam_user.mage_user.name
 }
 
-resource "aws_secretsmanager_secret" "access_key_id_secret" {
-  name = "${var.app_name}/${var.app_environment}/mage-user-access-key-id"
+resource "aws_secretsmanager_secret" "mage_user_secret_access_key_secret" {
+  name = "${var.app_name}/${var.app_environment}/mage-user-access-key-secret"
+  tags = merge(
+    var.common_tags,
+    {
+      Name = "${var.app_name}-mage-user-access-key-secret-version"
+    }
+  )
 }
 
-resource "aws_secretsmanager_secret" "secret_access_key_secret" {
-  name = "${var.app_name}/${var.app_environment}/mage-user-secret-access-key"
-}
-
-resource "aws_secretsmanager_secret_version" "access_key_id_secret_version" {
-  secret_id     = aws_secretsmanager_secret.access_key_id_secret.id
-  secret_string = aws_iam_access_key.mage_user_access_key.id
-}
-
-resource "aws_secretsmanager_secret_version" "secret_access_key_secret_version" {
-  secret_id     = aws_secretsmanager_secret.secret_access_key_secret.id
-  secret_string = aws_iam_access_key.mage_user_access_key.secret
+resource "aws_secretsmanager_secret_version" "mage_user_access_key_secret_version" {
+  secret_id     = aws_secretsmanager_secret.mage_user_secret_access_key_secret.id
+  secret_string = jsonencode({
+    access_key_id     = aws_iam_access_key.mage_user_access_key.id,
+    secret_access_key = aws_iam_access_key.mage_user_access_key.secret
+  })
 }
 
 

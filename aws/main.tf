@@ -182,3 +182,12 @@ resource "aws_security_group" "service_security_group" {
   )
 }
 
+resource "aws_s3_bucket" "bucket" {
+  bucket = "mage-dataeng-prod"
+  tags = merge(
+    var.common_tags,
+    {
+      Name = "${var.app_name}-s3-bucket"
+    }
+  )
+}

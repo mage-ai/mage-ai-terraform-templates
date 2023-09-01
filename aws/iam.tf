@@ -74,6 +74,18 @@ resource "aws_iam_policy" "mage_s3_bucket_policy" {
         {
             "Effect": "Allow",
             "Action": [
+                "s3:GetObject",
+                "s3:ListBucket",
+                "s3:GetBucketLocation"
+            ],
+            "Resource": [
+                "arn:aws:s3:::mage-dataeng-prod",
+                "arn:aws:s3:::mage-dataeng-prod/*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
                 "s3:*",
                 "s3-object-lambda:*"
             ],

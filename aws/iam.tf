@@ -146,6 +146,31 @@ resource "aws_iam_user_policy_attachment" "attach_mage_s3_bucket_policy" {
 }
 
 
+# Create user access key and store creds in secrets
+
+
+resource "aws_iam_access_key" "mage_user_access_key" {
+  user = aws_iam_user.mage_user.name
+}
+
+resource "aws_secretsmanager_secret" "access_key_id_secret" {
+  name = "${var.app_name}/${var.app_environment}/mage-user-access-key-id"
+}
+
+resource "aws_secretsmanager_secret" "secret_access_key_secret" {
+  name = "${var.app_name}/${var.app_environment}/mage-user-secret-access-key"
+}
+
+resource "aws_secretsmanager_secret_version" "access_key_id_secret_version" {
+  secret_id     = aws_secretsmanager_secret.access_key_id_secret.id
+  secret_string = aws_iam_access_key.mage_user_access_key.id
+}
+
+resource "aws_secretsmanager_secret_version" "secret_access_key_secret_version" {
+  secret_id     = aws_secretsmanager_secret.secret_access_key_secret.id
+  secret_string = aws_iam_access_key.mage_user_access_key.secret
+}
+
 
 
 # resource "aws_iam_role" "lambda_role" {

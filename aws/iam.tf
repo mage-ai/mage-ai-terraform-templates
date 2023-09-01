@@ -128,7 +128,8 @@ resource "aws_iam_policy" "mage_user_policy" {
                 "ecs:DescribeServices",
                 "ecs:DescribeTaskDefinition",
                 "ecs:RegisterTaskDefinition",
-                "ecs:UpdateService"
+                "ecs:UpdateService",
+                "iam:PassRole"
             ],
             "Resource": "*"
         }

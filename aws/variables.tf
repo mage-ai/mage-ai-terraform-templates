@@ -61,7 +61,7 @@ variable "docker_image" {
 
 variable "ecs_task_cpu" {
   description = "ECS task cpu"
-  default     = 4096
+  default     = 8192
 }
 
 variable "ecs_task_memory" {

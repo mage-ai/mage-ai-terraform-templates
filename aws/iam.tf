@@ -31,7 +31,7 @@ resource "aws_iam_policy" "secrets_read_only" {
       Name = "${var.app_name}-secrets-read-only"
     }
   )
-  policy      = <<EOF
+  policy = <<EOF
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -67,7 +67,7 @@ resource "aws_iam_policy" "mage_s3_bucket_policy" {
       Name = "${var.app_name}-mage-s3-bucket-policy"
     }
   )
-  policy      = <<EOF
+  policy = <<EOF
 {
     "Version": "2012-10-17",
     "Statement": [
@@ -102,7 +102,7 @@ resource "aws_iam_role_policy_attachment" "attach_mage_s3_policy" {
 }
 
 resource "aws_iam_policy" "mage_user_policy" {
-  name = "MageUserPolicy"
+  name        = "MageUserPolicy"
   description = "Mage user policy"
   tags = merge(
     var.common_tags,
@@ -127,6 +127,9 @@ resource "aws_iam_policy" "mage_user_policy" {
                 "ecs:DescribeClusters",
                 "ecs:DescribeServices",
                 "ecs:DescribeTaskDefinition",
+                "ecs:DescribeTasks",
+                "ecs:ListTasks",
+                "ecs:RunTask",
                 "ecs:RegisterTaskDefinition",
                 "ecs:UpdateService",
                 "iam:PassRole"
@@ -177,7 +180,7 @@ resource "aws_secretsmanager_secret" "mage_user_secret_access_key_secret" {
 }
 
 resource "aws_secretsmanager_secret_version" "mage_user_access_key_secret_version" {
-  secret_id     = aws_secretsmanager_secret.mage_user_secret_access_key_secret.id
+  secret_id = aws_secretsmanager_secret.mage_user_secret_access_key_secret.id
   secret_string = jsonencode({
     access_key_id     = aws_iam_access_key.mage_user_access_key.id,
     secret_access_key = aws_iam_access_key.mage_user_access_key.secret

@@ -16,7 +16,7 @@ resource "aws_alb" "application_load_balancer" {
 }
 
 data "aws_secretsmanager_secret_version" "whitelisted-ips" {
-  secret_id = "${var.app_name}/${var.app_environment}/whitelisted-ips"
+  secret_id     = "${var.app_name}/${var.app_environment}/whitelisted-ips"
   version_stage = "AWSCURRENT"
 }
 
@@ -71,7 +71,7 @@ resource "aws_lb_target_group" "target_group" {
     protocol            = "HTTP"
     matcher             = "200"
     timeout             = "5"
-    path                = "/api/kernels"
+    path                = "/api/status"
     unhealthy_threshold = "2"
   }
 

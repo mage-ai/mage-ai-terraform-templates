@@ -60,7 +60,7 @@ resource "aws_lb_target_group" "target_group" {
     protocol            = "HTTP"
     matcher             = "200"
     timeout             = "5"
-    path                = "/api/kernels"
+    path                = "/api/status"
     unhealthy_threshold = "2"
   }
 

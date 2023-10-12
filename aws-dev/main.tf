@@ -163,7 +163,14 @@ resource "aws_ecs_task_definition" "dev-task" {
           "softLimit": 16384,
           "hardLimit": 32768
         }
-      ]
+      ],
+      "healthCheck": {
+        "command": ["CMD-SHELL", "curl -f http://localhost:6789/api/status || exit 1"],
+        "interval": 30,
+        "timeout": 5,
+        "retries": 3,
+        "startPeriod": 10
+      }
     }
   ]
   DEFINITION

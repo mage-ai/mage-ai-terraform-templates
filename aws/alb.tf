@@ -69,10 +69,10 @@ resource "aws_lb_target_group" "target_group" {
     healthy_threshold   = "3"
     interval            = "30"
     protocol            = "HTTP"
-    matcher             = "200"
+    matcher             = "200-299"
     timeout             = "5"
     path                = "/api/status"
-    unhealthy_threshold = "2"
+    unhealthy_threshold = "10"
   }
 
   tags = merge(

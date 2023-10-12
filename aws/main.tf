@@ -39,7 +39,7 @@ data "template_file" "env_vars" {
   template = file("env_vars.json")
 
   vars = {
-    aws_region_name       = var.aws_region
+    aws_region_name = var.aws_region
     # lambda_func_arn = "${aws_lambda_function.terraform_lambda_func.arn}"
     # lambda_func_name = "${aws_lambda_function.terraform_lambda_func.function_name}"
     database_connection_url = "postgresql+psycopg2://${var.database_user}:${var.database_password}@${aws_db_instance.rds.address}:5432/mage"
@@ -87,7 +87,14 @@ resource "aws_ecs_task_definition" "aws-ecs-task" {
           "softLimit": 16384,
           "hardLimit": 32768
         }
-      ]
+      ],
+       "healthCheck": {
+          "command": ["CMD-SHELL", "curl -f http://localhost:6789/api/status || exit 1"],
+          "interval": 30,
+          "timeout": 5,
+          "retries": 3,
+          "startPeriod": 10
+        }
     }
   ]
   DEFINITION
@@ -138,7 +145,7 @@ resource "aws_ecs_service" "aws-ecs-service" {
   )
 
   network_configuration {
-    subnets = [data.aws_subnet.subnet_1.id, data.aws_subnet.subnet_2.id]
+    subnets          = [data.aws_subnet.subnet_1.id, data.aws_subnet.subnet_2.id]
     assign_public_ip = true
     security_groups = [
       aws_security_group.service_security_group.id,

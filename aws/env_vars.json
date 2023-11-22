@@ -26,5 +26,17 @@
   {
     "name": "MAGE_PUBLIC_HOST",
     "value": "mage.nursa-dataeng.com"
+  },
+  {
+    "name": "PROJECT_TYPE",
+    "value": "main"
+  },
+  {
+    "name": "CLUSTER_TYPE",
+    "value": "ecs"
+  },
+  {
+    "name": "REDIS_URL",
+    "value": "${redis_url}"
   }
 ]

@@ -1,7 +1,7 @@
 app_name        = "dataeng-mage"
-app_environment = "prod"
+app_environment = "dev"
 common_tags = {
-  Env       = "prod"
+  Env       = "dev"
   ManagedBy = "terraform"
   Owner     = "data-engineering"
   Service   = "mage"

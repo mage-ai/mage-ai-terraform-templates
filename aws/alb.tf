@@ -16,7 +16,7 @@ resource "aws_alb" "application_load_balancer" {
 }
 
 data "aws_secretsmanager_secret_version" "whitelisted-ips" {
-  secret_id     = "${var.app_name}/${var.app_environment}/whitelisted-ips"
+  secret_id     = "dataeng/whitelisted-ips"
   version_stage = "AWSCURRENT"
 }
 

@@ -43,8 +43,7 @@ data "template_file" "env_vars" {
     # lambda_func_arn = "${aws_lambda_function.terraform_lambda_func.arn}"
     # lambda_func_name = "${aws_lambda_function.terraform_lambda_func.function_name}"
     database_connection_url = "postgresql+psycopg2://${var.database_user}:${var.database_password}@${aws_db_instance.rds.address}:5432/mage"
-    ec2_subnet_id           = data.aws_subnet.subnet_1.id,
-    redis_url          = "redis://${aws_elasticache_cluster.redis_cluster.cache_nodes[0].address}/0"
+    ec2_subnet_id           = data.aws_subnet.subnet_1.id
   }
 }
 

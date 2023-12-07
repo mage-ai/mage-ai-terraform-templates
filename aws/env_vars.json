@@ -1,30 +1,38 @@
 [
-  {
-    "name": "ENV",
-    "value": "prod"
-  },
-  {
-    "name": "env",
-    "value": "prod"
-  },
-  {
-    "name": "AWS_REGION_NAME",
-    "value": "${aws_region_name}"
-  },
-  {
-    "name": "MAGE_DATABASE_CONNECTION_URL",
-    "value": "${database_connection_url}"
-  },
-  {
-    "name": "MAGE_EC2_SUBNET_ID",
-    "value": "${ec2_subnet_id}"
-  },
-  {
-    "name": "REQUIRE_USER_AUTHENTICATION",
-    "value": "1"
-  },
-  {
-    "name": "MAGE_PUBLIC_HOST",
-    "value": "mage.nursa-dataeng.com"
-  }
+	{
+		"name": "ENV",
+		"value": "prod"
+	},
+	{
+		"name": "env",
+		"value": "prod"
+	},
+	{
+		"name": "AWS_REGION_NAME",
+		"value": "${aws_region_name}"
+	},
+	{
+		"name": "MAGE_DATABASE_CONNECTION_URL",
+		"value": "${database_connection_url}"
+	},
+	{
+		"name": "MAGE_EC2_SUBNET_ID",
+		"value": "${ec2_subnet_id}"
+	},
+	{
+		"name": "REQUIRE_USER_AUTHENTICATION",
+		"value": "1"
+	},
+	{
+		"name": "MAGE_PUBLIC_HOST",
+		"value": "mage.nursa-dataeng.com"
+	},
+	{
+		"name": "CLUSTER_TYPE",
+		"value": "ecs"
+	},
+	{
+		"name": "REDIS_URL",
+		"value": "${redis_url}"
+	}
 ]

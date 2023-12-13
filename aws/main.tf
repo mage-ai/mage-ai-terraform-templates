@@ -5,6 +5,12 @@ terraform {
       version = "~> 4.50"
     }
   }
+  backend "s3" {
+    bucket         = "nursa-github-oidc-terraform-aws-tfstates"
+    key            = "dataeng-mage/prod/terraform.tfstate"
+    region         = "us-west-2"
+    encrypt        = true
+  }
 
   required_version = ">= 1.2.0"
 }

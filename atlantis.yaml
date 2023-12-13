@@ -2,7 +2,7 @@ version: 3
 projects:
 - name: dataeng-mage-prod
   dir: aws
-  workflow: production
+  workflow: prod
 workflows:
   prod:
     plan:

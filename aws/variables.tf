@@ -42,18 +42,6 @@ variable "app_environment" {
   default     = "production"
 }
 
-variable "database_user" {
-  type        = string
-  description = "The username of the Postgres database."
-  default     = "mageuser"
-}
-
-variable "database_password" {
-  type        = string
-  description = "The password of the Postgres database."
-  sensitive   = true
-}
-
 variable "docker_image" {
   description = "Docker image url used in ECS task."
   default     = "mageai/mageai:latest"

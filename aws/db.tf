@@ -50,28 +50,12 @@ resource "aws_security_group" "rds_sg" {
   }
 }
 
-import {
-  to = aws_secretsmanager_secret.db_credentials
-  id = "dataeng-mage/prod/rds-db-creds"
+data "aws_secretsmanager_secret" "db_credentials" {
+  name = "${var.app_name}/${var.app_environment}/rds-db-creds"
 }
 
-resource "aws_secretsmanager_secret" "db_credentials" {
-  name        = "${var.app_name}/${var.app_environment}/rds-db-creds"
-  description = "Mage RDS Database credentials"
-  tags = merge(
-    var.common_tags,
-    {
-      Name = "${var.app_name}-${var.app_environment}-rds-db-creds"
-    }
-  )
-}
-
-resource "aws_secretsmanager_secret_version" "db_credentials" {
-  secret_id = aws_secretsmanager_secret.db_credentials.id
-  secret_string = jsonencode({
-    "user" = "${var.database_user}"
-    "password"  = "${var.database_password}"
-  })
+data "aws_secretsmanager_secret_version" "latest" {
+  secret_id = data.aws_secretsmanager_secret.db_credentials.id
 }
 
 resource "aws_db_instance" "rds" {
@@ -82,8 +66,8 @@ resource "aws_db_instance" "rds" {
   instance_class         = "db.t3.micro"
   multi_az               = false
   db_name                = "mage"
-  username               = var.database_user
-  password               = var.database_password
+  username               = "${jsondecode(data.aws_secretsmanager_secret_version.latest.secret_string)["user"]}"
+  password               = "${jsondecode(data.aws_secretsmanager_secret_version.latest.secret_string)["password"]}"
   db_subnet_group_name   = aws_db_subnet_group.rds_subnet_group.id
   vpc_security_group_ids = [aws_security_group.rds_sg.id, aws_security_group.rds_ec2_connect_sg.id]
   skip_final_snapshot    = true

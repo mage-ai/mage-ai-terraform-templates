@@ -30,3 +30,4 @@ There are some dependencies on existing AWS infrastructure. If we were to lose a
 There are other resources that need to be created before deploying if they don't exist including:
 
 1. Mage project docker image in ECR `var.docker_image`
+

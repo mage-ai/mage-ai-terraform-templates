@@ -1,26 +1,86 @@
 [
-    {
-        "name": "ENV",
-        "value": "production"
-    },
-    {
-        "name": "AWS_ACCESS_KEY_ID",
-        "value": "${aws_access_key_id}"
-    },
-    {
-        "name": "AWS_SECRET_ACCESS_KEY",
-        "value": "${aws_secret_access_key}"
-    },
-    {
-        "name": "AWS_REGION_NAME",
-        "value": "${aws_region_name}"
-    },
-    {
-        "name": "MAGE_DATABASE_CONNECTION_URL",
-        "value": "${database_connection_url}"
-    },
-    {
-        "name": "MAGE_EC2_SUBNET_ID",
-        "value": "${ec2_subnet_id}"
-    }
+  {
+    "name": "REQUIRE_USER_AUTHENTICATION",
+    "value": "1",
+  },
+  {
+    "name": "ENV",
+    "value": "prod"
+  },
+  {
+    "name": "POSTGRES_DATABASE",
+    "value": "mage/demo2"
+  },
+  {
+    "name": "POSTGRES_HOST",
+    "value": "db.bit.io"
+  },
+  {
+    "name": "POSTGRES_PASSWORD",
+    "value": "v2_3upzD_eMSdiu5AMjgzSbi3K7KTAuE"
+  },
+  {
+    "name": "POSTGRES_PORT",
+    "value": "5432"
+  },
+  {
+    "name": "POSTGRES_SCHEMA",
+    "value": "mage"
+  },
+  {
+    "name": "POSTGRES_USERNAME",
+    "value": "mage"
+  },
+  {
+    "name": "SNOWFLAKE_ACCOUNT",
+    "value": "nqa04067.us-east-1"
+  },
+  {
+    "name": "SNOWFLAKE_DATABASE",
+    "value": "DEMO_DB"
+  },
+  {
+    "name": "SNOWFLAKE_PASSWORD",
+    "value": "cMyTk6xDbdCrAE7AyeVk!d6A"
+  },
+  {
+    "name": "SNOWFLAKE_SCHEMA",
+    "value": "MAGE"
+  },
+  {
+    "name": "SNOWFLAKE_USERNAME",
+    "value": "mage"
+  },
+  {
+    "name": "SNOWFLAKE_WAREHOUSE",
+    "value": "COMPUTE_WH"
+  },
+  {
+    "name": "PLATFORM",
+    "value": "local"
+  },
+  {
+    "name": "S3_ACCESS_KEY_ID",
+    "value": "AKIATFXMT3DJX47JKAMV"
+  },
+  {
+    "name": "S3_SECRET_ACCESS_KEY",
+    "value": "UNi3ArZbF1/h+IPVIDh2D+OOqmgwNEgObatmguWD"
+  },
+  {
+    "name": "MAGE_DATABASE_CONNECTION_URL",
+    "value": "${database_connection_url}"
+  },
+  {
+    "name": "MAGE_EC2_SUBNET_ID",
+    "value": "${ec2_subnet_id}"
+  },
+  {
+    "name": "MYSQL_HOST",
+    "value": "mage-development.cxj4djmtpwkx.us-west-2.rds.amazonaws.com"
+  },
+  {
+    "name": "MYSQL_PASSWORD",
+    "value": "KnsBmBeZ4MNeRpdEZw9NQw5Fj"
+  }
 ]

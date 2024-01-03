@@ -1,7 +1,7 @@
 variable "app_name" {
   type        = string
   description = "Application Name"
-  default     = "mage-data-prep"
+  default     = "eng-test"
 }
 
 variable "container_cpu" {
@@ -17,7 +17,7 @@ variable "container_memory" {
 variable "project_id" {
   type        = string
   description = "The name of the project"
-  default     = "unique-gcp-project-id"
+  default     = "mage-341100"
 }
 
 variable "region" {
@@ -41,19 +41,24 @@ variable "repository" {
 variable "database_user" {
   type        = string
   description = "The username of the Postgres database."
+<<<<<<< Updated upstream
   default     = "mageuser"
+=======
+  default     = "postgres"
+>>>>>>> Stashed changes
 }
 
 variable "database_password" {
   type        = string
   description = "The password of the Postgres database."
   sensitive   = true
+  default     = "postgres"
 }
 
 variable "docker_image" {
   type        = string
   description = "The Docker image url in the Artifact Registry repository to be deployed to Cloud Run"
-  default     = "region-docker.pkg.dev/project_id/repository_name/mageai"
+  default     = "us-west2-docker.pkg.dev/mage-341100/mage/mage"
 }
 
 variable "domain" {

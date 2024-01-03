@@ -33,7 +33,7 @@ variable "aws_cloudwatch_retention_in_days" {
 variable "app_name" {
   type        = string
   description = "Application Name"
-  default     = "mage-data-prep"
+  default     = "mage-td-test"
 }
 
 variable "app_environment" {
@@ -50,12 +50,13 @@ variable "cidr" {
 variable "database_user" {
   type        = string
   description = "The username of the Postgres database."
-  default     = "mageuser"
+  default     = "postgres"
 }
 
 variable "database_password" {
   type        = string
   description = "The password of the Postgres database."
+  default     = "postgres"
   sensitive   = true
 }
 

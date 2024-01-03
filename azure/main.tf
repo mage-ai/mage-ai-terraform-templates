@@ -61,6 +61,8 @@ resource "azurerm_container_group" "container_group" {
       "AZURE_CLIENT_SECRET"         = azuread_service_principal_password.app.value
       "AZURE_STORAGE_ACCOUNT_NAME"  = var.storage_account_name
       "AZURE_TENANT_ID"             = azuread_service_principal.app.application_tenant_id
+      "REQUIRE_USER_AUTHENTICATION" = "1"
+      "MAX_NUMBER_OF_FILE_VERSIONS" = "200"
     }
   }
 

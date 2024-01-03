@@ -7,7 +7,7 @@ variable "app_environment" {
 variable "app_name" {
   type        = string
   description = "Application Name"
-  default     = "mage-data-prep"
+  default     = "mager"
 }
 
 variable "container_cpu" {
@@ -27,10 +27,10 @@ variable "docker_image" {
 
 variable "key_vault_name" {
   description = "Key vault name. It must be globally unique across Azure."
-  default     = "magedataprepkeyvault"
+  default     = "magerkeyvault"
 }
 
 variable "storage_account_name" {
   description = "Storage account name. It must be globally unique across Azure."
-  default     = "magedataprepstorage"
+  default     = "magerstorage"
 }

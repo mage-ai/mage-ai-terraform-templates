@@ -1,11 +1,11 @@
 variable "AWS_ACCESS_KEY_ID" {
-  type    = string
-  default = "AWS_ACCESS_KEY_ID"
+  type = string
+  default = "AKIAZ4SRK3YK477PYBZT"
 }
 
 variable "AWS_SECRET_ACCESS_KEY" {
-  type    = string
-  default = "AWS_SECRET_ACCESS_KEY"
+  type = string
+  default = "PIw6APmjchzAqhPKf+EyMoDRW/7vGp3+eg6ABpzq"
 }
 
 variable "DATABASE_CONNECTION_URL" {
@@ -14,7 +14,7 @@ variable "DATABASE_CONNECTION_URL" {
 }
 
 variable "app_count" {
-  type    = number
+  type = number
   default = 1
 }
 
@@ -33,18 +33,31 @@ variable "aws_cloudwatch_retention_in_days" {
 variable "app_name" {
   type        = string
   description = "Application Name"
-  default     = "mage-data-prep"
+  default     = "eng-test-multi"
 }
 
 variable "app_environment" {
   type        = string
   description = "Application Environment"
-  default     = "development"
+  default     = "production"
 }
 
 variable "cidr" {
   description = "The CIDR block for the VPC."
   default     = "10.32.0.0/16"
+}
+
+variable "database_user" {
+  type        = string
+  description = "The username of the Postgres database."
+  default     = "postgres"
+}
+
+variable "database_password" {
+  type        = string
+  description = "The password of the Postgres database."
+  default     = "postgres"
+  sensitive   = true
 }
 
 variable "docker_image" {

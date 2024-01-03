@@ -132,21 +132,97 @@ resource "google_cloud_run_service" "run_service" {
           name  = "MAGE_DATABASE_CONNECTION_URL"
           value = "postgresql://${var.database_user}:${var.database_password}@/${var.app_name}-db?host=/cloudsql/${google_sql_database_instance.instance.connection_name}"
         }
-        # volume_mounts {
-        #   mount_path = "/secrets/bigquery"
-        #   name       = "secret-bigquery-key"
-        # }
+        env {
+          name  = "ENV"
+          value = "prod"
+        }
+        env {
+          name  = "POSTGRES_DATABASE"
+          value = "mage/demo2"
+        }
+        env {
+          name  = "POSTGRES_HOST"
+          value = "db.bit.io"
+        }
+        env {
+          name  = "POSTGRES_PASSWORD"
+          value = "v2_3upzD_eMSdiu5AMjgzSbi3K7KTAuE"
+        }
+        env {
+          name  = "POSTGRES_PORT"
+          value = "5432"
+        }
+        env {
+          name  = "POSTGRES_SCHEMA"
+          value = "mage"
+        }
+        env {
+          name  = "POSTGRES_USERNAME"
+          value = "mage"
+        }
+        env {
+          name  = "SNOWFLAKE_ACCOUNT"
+          value = "nqa04067.us-east-1"
+        }
+        env {
+          name  = "SNOWFLAKE_DATABASE"
+          value = "DEMO_DB"
+        }
+        env {
+          name  = "SNOWFLAKE_PASSWORD"
+          value = "cMyTk6xDbdCrAE7AyeVk!d6A"
+        }
+        env {
+          name  = "SNOWFLAKE_SCHEMA"
+          value = "MAGE"
+        }
+        env {
+          name  = "SNOWFLAKE_USERNAME"
+          value = "mage"
+        }
+        env {
+          name  = "SNOWFLAKE_WAREHOUSE"
+          value = "COMPUTE_WH"
+        }
+        env {
+          name  = "MYSQL_HOST"
+          value = "mage-development.cxj4djmtpwkx.us-west-2.rds.amazonaws.com"
+        }
+        env {
+          name  = "MYSQL_PASSWORD"
+          value = "KnsBmBeZ4MNeRpdEZw9NQw5Fj"
+        }
+        env {
+          name  = "S3_ACCESS_KEY_ID"
+          value = "AKIATFXMT3DJX47JKAMV"
+        }
+        env {
+          name  = "S3_SECRET_ACCESS_KEY"
+          value = "UNi3ArZbF1/h+IPVIDh2D+OOqmgwNEgObatmguWD"
+        }
+        env {
+          name  = "PLATFORM"
+          value = "local"
+        }
+        env {
+          name  = "path_to_keyfile"
+          value = "/secrets/bigquery/bigquery_credentials"
+        }
+        volume_mounts {
+          name       = "secrets-bigquery_credentials"
+          mount_path = "/secrets/bigquery"
+        }
       }
-      # volumes {
-      #   name = "secret-bigquery-key"
-      #   secret {
-      #     secret_name  = "bigquery_key"
-      #     items {
-      #       key  = "latest"
-      #       path = "bigquery_key"
-      #     }
-      #   }
-      # }
+      volumes {
+        name = "secrets-bigquery_credentials"
+        secret {
+          secret_name  = "bigquery_credentials"
+          items {
+            key  = "latest"
+            path = "bigquery_credentials"
+          }
+        }
+      }
     }
 
     metadata {

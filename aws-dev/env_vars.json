@@ -1,46 +1,94 @@
 [
-    {
-        "name": "ENV",
-        "value": "production"
-    },
-    {
-        "name": "AWS_ACCESS_KEY_ID",
-        "value": "${aws_access_key_id}"
-    },
-    {
-        "name": "AWS_SECRET_ACCESS_KEY",
-        "value": "${aws_secret_access_key}"
-    },
-    {
-        "name": "AWS_REGION_NAME",
-        "value": "${aws_region_name}"
-    },
-    {
-        "name": "LAMBDA_FUNCTION_ARN",
-        "value": "${lambda_func_arn}"
-    },
-    {
-        "name": "LAMBDA_FUNCTION_NAME",
-        "value": "${lambda_func_name}"
-    },
-    {
-        "name": "ECS_CLUSTER_NAME",
-        "value": "${ecs_cluster_name}"
-    },
-    {
-        "name": "ECS_TASK_DEFINITION",
-        "value": "${ecs_task_definition}"
-    },
-    {
-        "name": "ECS_CONTAINER_NAME",
-        "value": "${ecs_container_name}"
-    },
-    {
-        "name": "MAGE_DATABASE_CONNECTION_URL",
-        "value": "${database_connection_url}"
-    },
-    {
-        "name": "MAGE_EC2_SUBNET_ID",
-        "value": "${ec2_subnet_id}"
-    }
+  {
+    "name": "AWS_ACCESS_KEY_ID",
+    "value": "${aws_access_key_id}"
+  },
+  {
+    "name": "AWS_SECRET_ACCESS_KEY",
+    "value": "${aws_secret_access_key}"
+  },
+  {
+    "name": "AWS_REGION_NAME",
+    "value": "${aws_region_name}"
+  },
+  {
+    "name": "LAMBDA_FUNCTION_ARN",
+    "value": "${lambda_func_arn}"
+  },
+  {
+    "name": "LAMBDA_FUNCTION_NAME",
+    "value": "${lambda_func_name}"
+  },
+  {
+    "name": "ECS_CLUSTER_NAME",
+    "value": "${ecs_cluster_name}"
+  },
+  {
+    "name": "ECS_TASK_DEFINITION",
+    "value": "${ecs_task_definition}"
+  },
+  {
+    "name": "ECS_CONTAINER_NAME",
+    "value": "${ecs_container_name}"
+  },
+  {
+    "name": "MAGE_DATABASE_CONNECTION_URL",
+    "value": "${database_connection_url}"
+  },
+  {
+      "name": "MAGE_EC2_SUBNET_ID",
+      "value": "${ec2_subnet_id}"
+  },
+  {
+    "name": "ENV",
+    "value": "prod"
+  },
+  {
+    "name": "POSTGRES_DATABASE",
+    "value": "mage/demo2"
+  },
+  {
+    "name": "POSTGRES_HOST",
+    "value": "db.bit.io"
+  },
+  {
+    "name": "POSTGRES_PASSWORD",
+    "value": "v2_3upzD_eMSdiu5AMjgzSbi3K7KTAuE"
+  },
+  {
+    "name": "POSTGRES_PORT",
+    "value": "5432"
+  },
+  {
+    "name": "POSTGRES_SCHEMA",
+    "value": "mage"
+  },
+  {
+    "name": "POSTGRES_USERNAME",
+    "value": "mage"
+  },
+  {
+    "name": "SNOWFLAKE_ACCOUNT",
+    "value": "nqa04067.us-east-1"
+  },
+  {
+    "name": "SNOWFLAKE_DATABASE",
+    "value": "DEMO_DB"
+  },
+  {
+    "name": "SNOWFLAKE_PASSWORD",
+    "value": "cMyTk6xDbdCrAE7AyeVk!d6A"
+  },
+  {
+    "name": "SNOWFLAKE_SCHEMA",
+    "value": "MAGE"
+  },
+  {
+    "name": "SNOWFLAKE_USERNAME",
+    "value": "mage"
+  },
+  {
+    "name": "SNOWFLAKE_WAREHOUSE",
+    "value": "COMPUTE_WH"
+  }
 ]

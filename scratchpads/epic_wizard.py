@@ -1,14 +1,4 @@
-from mage_ai.data_preparation.models.global_data_product import GlobalDataProduct
-
-
-
-
-
-
-
-
-
-
+from mage_ai.data_preparation.models.global_data_product import GlobalDataProd
 
 
 

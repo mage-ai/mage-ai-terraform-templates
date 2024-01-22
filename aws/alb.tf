@@ -33,6 +33,7 @@ resource "aws_security_group" "load_balancer_security_group" {
     protocol    = "tcp"
     description = "dataeng team ips"
     cidr_blocks = values(local.cidr_blocks)
+    security_groups = [aws_security_group.canary_security_group.id]
   }
   ingress {
     from_port   = 80
@@ -40,6 +41,7 @@ resource "aws_security_group" "load_balancer_security_group" {
     protocol    = "tcp"
     description = "dataeng team ips"
     cidr_blocks = values(local.cidr_blocks)
+    security_groups = [aws_security_group.canary_security_group.id]
   }
 
   egress {

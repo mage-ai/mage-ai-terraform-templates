@@ -6,10 +6,10 @@ terraform {
     }
   }
   backend "s3" {
-    bucket         = "nursa-github-oidc-terraform-aws-tfstates"
-    key            = "dataeng-mage/prod/terraform.tfstate"
-    region         = "us-west-2"
-    encrypt        = true
+    bucket  = "nursa-github-oidc-terraform-aws-tfstates"
+    key     = "dataeng-mage/prod/terraform.tfstate"
+    region  = "us-west-2"
+    encrypt = true
   }
 
   required_version = ">= 1.2.0"
@@ -46,11 +46,13 @@ data "template_file" "env_vars" {
 
   vars = {
     aws_region_name = var.aws_region
-    # lambda_func_arn = "${aws_lambda_function.terraform_lambda_func.arn}"
-    # lambda_func_name = "${aws_lambda_function.terraform_lambda_func.function_name}"
-    database_connection_url = "postgresql+psycopg2://${jsondecode(data.aws_secretsmanager_secret_version.latest.secret_string)["user"]}:${jsondecode(data.aws_secretsmanager_secret_version.latest.secret_string)["password"]}@${aws_db_instance.rds.address}:5432/mage"
-    ec2_subnet_id           = data.aws_subnet.subnet_1.id,
-    redis_url          = "redis://${aws_elasticache_cluster.redis_cluster.cache_nodes[0].address}/0"
+    database_connection_url     = "postgresql+psycopg2://${jsondecode(data.aws_secretsmanager_secret_version.latest.secret_string)["user"]}:${jsondecode(data.aws_secretsmanager_secret_version.latest.secret_string)["password"]}@${aws_db_instance.rds.address}:5432/mage"
+    ec2_subnet_id               = data.aws_subnet.subnet_1.id,
+    redis_url                   = "redis://${aws_elasticache_cluster.redis_cluster.cache_nodes[0].address}/0"
+    redshift_host               = var.redshift_host
+    redshift_dbname             = var.redshift_dbname
+    redshift_user               = var.redshift_user
+    redshift_cluster_id = var.redshift_cluster_id
   }
 }
 
@@ -117,8 +119,8 @@ resource "aws_ecs_task_definition" "aws-ecs-task" {
     name = "${var.app_name}-fs"
 
     efs_volume_configuration {
-      file_system_id     = aws_efs_file_system.file_system.id
-      transit_encryption = "ENABLED"
+      file_system_id          = aws_efs_file_system.file_system.id
+      transit_encryption      = "ENABLED"
       transit_encryption_port = null
     }
   }

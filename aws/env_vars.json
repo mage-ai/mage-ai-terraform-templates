@@ -34,5 +34,22 @@
 	{
 		"name": "REDIS_URL",
 		"value": "${redis_url}"
+	},
+	{
+		"name": "REDSHIFT_HOST",
+		"value": "${redshift_host}"
+
+	},
+	{
+		"name": "REDSHIFT_DBNAME",
+		"value": "${redshift_dbname}"
+	},
+	{
+		"name": "REDSHIFT_CLUSTER_ID",
+		"value": "${redshift_cluster_id}"
+	},
+	{
+		"name": "REDSHIFT_USER",
+		"value": "${redshift_user}"
 	}
 ]

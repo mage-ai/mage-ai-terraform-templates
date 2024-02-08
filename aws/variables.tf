@@ -81,3 +81,24 @@ variable "common_tags" {
     Owner       = "data-engineering"
   }
 }
+
+variable "redshift_host" {
+  description = "Redshift host"
+  default     = "redshift-cluster-1.cjxjxjxjxjxj.us-west-2.redshift.amazonaws.com"
+}
+
+variable "redshift_dbname" {
+  description = "Redshift database name"
+  default     = "redshift"
+}
+
+variable "redshift_user" {
+  description = "Redshift user"
+  default     = "redshift"
+}
+
+variable "redshift_cluster_id" {
+  description = "Redshift cluster identifier"
+  default     = "redshift-cluster-1"
+}
+

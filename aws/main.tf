@@ -49,11 +49,6 @@ data "template_file" "env_vars" {
     # lambda_func_name = "${aws_lambda_function.terraform_lambda_func.function_name}"
     database_connection_url = "postgresql+psycopg2://${var.database_user}:${var.database_password}@${aws_db_instance.rds.address}:5432/mage"
     ec2_subnet_id           = aws_subnet.public[0].id
-
-    # Extra env_vars specific to this project.
-    experiments_tracking_uri = "postgresql+psycopg2://${var.database_user}:${var.database_password}@${aws_db_instance.rds.address}:5432/${var.experiments_database_name}"
-    smtp_email               = var.smtp_email    // export TF_VAR_smtp_email="..."
-    smtp_password            = var.smtp_password // export TF_VAR_smtp_password="..."
   }
 }
 
@@ -188,34 +183,3 @@ resource "aws_security_group" "service_security_group" {
     Environment = var.app_environment
   }
 }
-
-# Uncomment this section to setup CI/CD with GitHub Actions
-
-# resource "null_resource" "ci_cd_github_action_workflow" {
-#   depends_on = [
-#     aws_ecr_repository.container_repository,
-#     aws_ecs_cluster.aws-ecs-cluster,
-#     aws_ecs_service.aws-ecs-service,
-#     aws_ecs_task_definition.aws-ecs-task
-#   ]
-
-#   provisioner "local-exec" {
-#     environment = {
-#       AWS_REGION                         = var.aws_region
-#       ECR_REPOSITORY                     = aws_ecr_repository.container_repository.name
-#       ECS_CLUSTER                        = aws_ecs_cluster.aws-ecs-cluster.name
-#       ECS_SERVICE                        = aws_ecs_service.aws-ecs-service.name
-#       ECS_TASK_DEFINITION                = aws_ecs_task_definition.aws-ecs-task.family
-#       ECS_TASK_DEFINITION_CONTAINER_NAME = jsondecode(aws_ecs_task_definition.aws-ecs-task.container_definitions)[0].name
-#     }
-#     command = <<EOT
-#       scripts/create-github-actions-workflow.sh \
-#       "${var.aws_region}" \
-#       "${aws_ecr_repository.container_repository.name}" \
-#       "${aws_ecs_cluster.aws-ecs-cluster.name}" \
-#       "${aws_ecs_service.aws-ecs-service.name}" \
-#       "${aws_ecs_task_definition.aws-ecs-task.family}" \
-#       "$(echo '${jsondecode(aws_ecs_task_definition.aws-ecs-task.container_definitions)[0].name}')"
-#     EOT
-#   }
-# }

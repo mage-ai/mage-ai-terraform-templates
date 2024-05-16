@@ -89,3 +89,9 @@ variable "availability_zones" {
   description = "List of availability zones"
   default     = ["us-west-2a", "us-west-2b"]
 }
+
+variable "enable_ci_cd" {
+  description = "A flag to enable/disable the CI/CD null resource"
+  type        = bool
+  default     = false
+}

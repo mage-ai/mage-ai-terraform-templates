@@ -10,7 +10,7 @@ terraform {
 }
 
 provider "aws" {
-  region  = var.aws_region
+  region = var.aws_region
 }
 
 resource "aws_ecs_cluster" "aws-ecs-cluster" {
@@ -27,6 +27,8 @@ resource "aws_ecs_cluster" "aws-ecs-cluster" {
   }
 }
 
+// To delete an existing log grou, run the cli command:
+// aws logs delete-log-group --log-group-name app-name-production-logs
 resource "aws_cloudwatch_log_group" "log-group" {
   name = "${var.app_name}-${var.app_environment}-logs"
 
@@ -40,13 +42,18 @@ data "template_file" "env_vars" {
   template = file("env_vars.json")
 
   vars = {
-    aws_access_key_id = var.AWS_ACCESS_KEY_ID
+    aws_access_key_id     = var.AWS_ACCESS_KEY_ID
     aws_secret_access_key = var.AWS_SECRET_ACCESS_KEY
     aws_region_name       = var.aws_region
     # lambda_func_arn = "${aws_lambda_function.terraform_lambda_func.arn}"
     # lambda_func_name = "${aws_lambda_function.terraform_lambda_func.function_name}"
     database_connection_url = "postgresql+psycopg2://${var.database_user}:${var.database_password}@${aws_db_instance.rds.address}:5432/mage"
-    ec2_subnet_id = aws_subnet.public[0].id
+    ec2_subnet_id           = aws_subnet.public[0].id
+
+    # Extra env_vars specific to this project.
+    experiments_tracking_uri = "postgresql+psycopg2://${var.database_user}:${var.database_password}@${aws_db_instance.rds.address}:5432/${var.experiments_database_name}"
+    smtp_email               = var.smtp_email    // export TF_VAR_smtp_email="..."
+    smtp_password            = var.smtp_password // export TF_VAR_smtp_password="..."
   }
 }
 
@@ -104,17 +111,17 @@ resource "aws_ecs_task_definition" "aws-ecs-task" {
 
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
-  memory                   = "${var.ecs_task_memory}"
-  cpu                      = "${var.ecs_task_cpu}"
+  memory                   = var.ecs_task_memory
+  cpu                      = var.ecs_task_cpu
   execution_role_arn       = aws_iam_role.ecsTaskExecutionRole.arn
   task_role_arn            = aws_iam_role.ecsTaskExecutionRole.arn
 
   volume {
-    name  = "${var.app_name}-fs"
+    name = "${var.app_name}-fs"
 
     efs_volume_configuration {
-      file_system_id        = aws_efs_file_system.file_system.id
-      transit_encryption    = "ENABLED"
+      file_system_id     = aws_efs_file_system.file_system.id
+      transit_encryption = "ENABLED"
     }
   }
 
@@ -182,3 +189,33 @@ resource "aws_security_group" "service_security_group" {
   }
 }
 
+# Uncomment this section to setup CI/CD with GitHub Actions
+
+# resource "null_resource" "ci_cd_github_action_workflow" {
+#   depends_on = [
+#     aws_ecr_repository.container_repository,
+#     aws_ecs_cluster.aws-ecs-cluster,
+#     aws_ecs_service.aws-ecs-service,
+#     aws_ecs_task_definition.aws-ecs-task
+#   ]
+
+#   provisioner "local-exec" {
+#     environment = {
+#       AWS_REGION                         = var.aws_region
+#       ECR_REPOSITORY                     = aws_ecr_repository.container_repository.name
+#       ECS_CLUSTER                        = aws_ecs_cluster.aws-ecs-cluster.name
+#       ECS_SERVICE                        = aws_ecs_service.aws-ecs-service.name
+#       ECS_TASK_DEFINITION                = aws_ecs_task_definition.aws-ecs-task.family
+#       ECS_TASK_DEFINITION_CONTAINER_NAME = jsondecode(aws_ecs_task_definition.aws-ecs-task.container_definitions)[0].name
+#     }
+#     command = <<EOT
+#       scripts/create-github-actions-workflow.sh \
+#       "${var.aws_region}" \
+#       "${aws_ecr_repository.container_repository.name}" \
+#       "${aws_ecs_cluster.aws-ecs-cluster.name}" \
+#       "${aws_ecs_service.aws-ecs-service.name}" \
+#       "${aws_ecs_task_definition.aws-ecs-task.family}" \
+#       "$(echo '${jsondecode(aws_ecs_task_definition.aws-ecs-task.container_definitions)[0].name}')"
+#     EOT
+#   }
+# }

@@ -10,4 +10,8 @@ resource "aws_ecr_repository" "container_repository" {
     Name        = "${var.app_name}-repository"
     Environment = var.app_environment
   }
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }

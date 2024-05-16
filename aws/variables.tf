@@ -1,10 +1,10 @@
 variable "AWS_ACCESS_KEY_ID" {
-  type = string
+  type    = string
   default = "AWS_ACCESS_KEY_ID"
 }
 
 variable "AWS_SECRET_ACCESS_KEY" {
-  type = string
+  type    = string
   default = "AWS_SECRET_ACCESS_KEY"
 }
 
@@ -14,7 +14,7 @@ variable "DATABASE_CONNECTION_URL" {
 }
 
 variable "app_count" {
-  type = number
+  type    = number
   default = 1
 }
 
@@ -33,7 +33,7 @@ variable "aws_cloudwatch_retention_in_days" {
 variable "app_name" {
   type        = string
   description = "Application Name"
-  default     = "mage-data-prep"
+  default     = "mage-ai"
 }
 
 variable "app_environment" {
@@ -61,17 +61,18 @@ variable "database_password" {
 
 variable "docker_image" {
   description = "Docker image url used in ECS task."
-  default     = "mageai/mageai:latest"
+  # or mageai/mageai:alpha to be on the bleeding edge
+  default = "mageai/mageai:latest"
 }
 
 variable "ecs_task_cpu" {
   description = "ECS task cpu"
-  default     = 512
+  default     = 4096
 }
 
 variable "ecs_task_memory" {
   description = "ECS task memory"
-  default     = 1024
+  default     = 8192
 }
 
 variable "public_subnets" {

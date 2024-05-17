@@ -95,9 +95,3 @@ variable "enable_ci_cd" {
   type        = bool
   default     = false
 }
-
-variable "prevent_destroy_ecr" {
-  description = "Disable Terraform from destroying the ECR repository"
-  type        = bool
-  default     = true
-}

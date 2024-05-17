@@ -12,6 +12,6 @@ resource "aws_ecr_repository" "container_repository" {
   }
 
   lifecycle {
-    prevent_destroy = var.prevent_destroy_ecr
+    prevent_destroy = true
   }
 }

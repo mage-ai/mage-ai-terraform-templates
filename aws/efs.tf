@@ -1,10 +1,17 @@
 # efs.tf | Elastic File System Configuration
 
+
+
+
 resource "aws_efs_file_system" "file_system" {
   encrypted        = true
   performance_mode = "generalPurpose"
   throughput_mode  = "elastic"
 
+   lifecycle_policy {
+    transition_to_ia = "AFTER_7_DAYS"
+   }
+    
   tags = merge(
     var.common_tags,
     {

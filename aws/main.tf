@@ -52,7 +52,7 @@ data "template_file" "env_vars" {
     redshift_host               = var.redshift_host
     redshift_dbname             = var.redshift_dbname
     redshift_user               = var.redshift_user
-    redshift_cluster_id = var.redshift_cluster_id
+    redshift_cluster_id         = var.redshift_cluster_id
   }
 }
 

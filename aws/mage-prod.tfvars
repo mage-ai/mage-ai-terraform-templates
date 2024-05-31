@@ -11,5 +11,3 @@ docker_image                = "015782078654.dkr.ecr.us-west-2.amazonaws.com/data
 redshift_cluster_identifier = "nursa-redshift-cluster-1"
 redshift_dbname             = "dev"
 redshift_user               = "data_team"
-redshift_port               = 5439
-redshift_host               = "redshift.prod.nursa.internal"
